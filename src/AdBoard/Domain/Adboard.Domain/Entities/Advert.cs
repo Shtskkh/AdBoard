@@ -8,6 +8,7 @@ public class Advert : IEntity<Guid>
     public string Title { get; set; }
     public string Description { get; set; }
     public User User { get; set; }
+    public double Price { get; set; }
     public DateTime CreatedAt { get; set; }
     public Guid PreviewPhoto { get; set; }
     public ICollection<Guid> Images { get; set; }
