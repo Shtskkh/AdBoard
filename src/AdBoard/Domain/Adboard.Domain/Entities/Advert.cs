@@ -9,6 +9,8 @@ public class Advert : IEntity<Guid>
     public string Description { get; set; }
     public User User { get; set; }
     public DateTime CreatedAt { get; set; }
+    public Guid PreviewPhoto { get; set; }
+    public ICollection<Guid> Images { get; set; }
     public ICollection<Category> Category { get; set; }
     public ICollection<Subcategory> Subcategories { get; set; }
     public ICollection<AdvertComment> AdvertComments { get; set; }
