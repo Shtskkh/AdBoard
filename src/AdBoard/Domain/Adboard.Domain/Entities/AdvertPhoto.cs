@@ -2,17 +2,13 @@ using Adboard.Domain.SeedWorks;
 
 namespace Adboard.Domain.Entities;
 
-public class AdvertComment : IEntity<Guid>
+public class AdvertPhoto : IEntity<Guid>
 {
     public Guid Id { get; set; }
-    public string Text { get; set; }
-    public DateTime CreatedAt { get; set; }
     
     // FKs
-    public Guid UserId { get; set; }
     public Guid AdvertId { get; set; }
     
     // Navigation Properties
-    public User User { get; set; }
     public Advert Advert { get; set; }
 }
