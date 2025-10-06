@@ -10,9 +10,8 @@ public class User : IEntity<Guid>
     public string LastName { get; set; }
     public string PhoneNumber { get; set; }
     public string Email { get; set; }
-    public string PasswordHash { get; set; }
+    public string Password { get; set; }
     public AccountStatus Status { get; set; }
     public DateTime CreatedAt { get; set; }
     public ICollection<Advert> Adverts { get; set; }
-    
 }
