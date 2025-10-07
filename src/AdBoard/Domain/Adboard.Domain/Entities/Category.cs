@@ -9,5 +9,4 @@ public class Category : IEntity<int>
     
     // Navigation Properties
     public ICollection<Subcategory> Subcategories { get; set; }
-    public ICollection<Advert> Adverts { get; set; }
 }
