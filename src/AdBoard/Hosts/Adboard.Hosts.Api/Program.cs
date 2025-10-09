@@ -9,9 +9,16 @@ builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseNp
 ));
 
 builder.Services.RegisterRepository();
+builder.Services.RegisterServices();
 
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApiDocument();
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.UseOpenApi();
+app.UseSwaggerUi();
+
+app.MapControllers();
 
 app.Run();
