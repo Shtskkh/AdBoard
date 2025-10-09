@@ -7,7 +7,7 @@ public static class ComponentRegister
 {
     public static IServiceCollection RegisterRepository(this IServiceCollection services)
     {
-        services.AddTransient(typeof(IRepository<,,>), typeof(Repository<,,>));
+        services.AddScoped(typeof(IRepository<,,>), typeof(Repository<,,>));
         
         return services;
     }
