@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Infrastructure\Adboard.Infrastructure.ComponentRegister\Adboard.Infrastructure.ComponentRegister.csproj" />
       <ProjectReference Include="..\..\Infrastructure\Adboard.Infrastructure.DataAccess\Adboard.Infrastructure.DataAccess.csproj" />
     </ItemGroup>
 

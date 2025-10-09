@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adboard.Hosts.Api", "src\Ad
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adboard.Hosts.DbMigrator", "src\AdBoard\Hosts\Adboard.Hosts.DbMigrator\Adboard.Hosts.DbMigrator.csproj", "{37E769BB-96BB-4530-9609-9312300EEA4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adboard.Infrastructure.ComponentRegister", "src\AdBoard\Infrastructure\Adboard.Infrastructure.ComponentRegister\Adboard.Infrastructure.ComponentRegister.csproj", "{DAF8307B-56E8-4E5B-83D7-A947E7BC38AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,7 @@ Global
 		{A738B17D-3526-45DC-AFCE-D24D062FDAD1} = {51A63F72-EF3B-4CE9-ADEA-A620563DFB23}
 		{BCFA5740-9B05-42A7-92D8-271167406C3E} = {2FB2089D-93B3-461E-BEE3-B7E54FBA1D37}
 		{37E769BB-96BB-4530-9609-9312300EEA4C} = {2FB2089D-93B3-461E-BEE3-B7E54FBA1D37}
+		{DAF8307B-56E8-4E5B-83D7-A947E7BC38AA} = {51A63F72-EF3B-4CE9-ADEA-A620563DFB23}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1397106B-E6FA-4A13-B0CD-3ADF078DD902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -62,5 +65,9 @@ Global
 		{37E769BB-96BB-4530-9609-9312300EEA4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37E769BB-96BB-4530-9609-9312300EEA4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37E769BB-96BB-4530-9609-9312300EEA4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAF8307B-56E8-4E5B-83D7-A947E7BC38AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAF8307B-56E8-4E5B-83D7-A947E7BC38AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAF8307B-56E8-4E5B-83D7-A947E7BC38AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAF8307B-56E8-4E5B-83D7-A947E7BC38AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
