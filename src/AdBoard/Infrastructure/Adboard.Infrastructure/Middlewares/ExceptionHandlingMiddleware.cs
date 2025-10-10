@@ -45,6 +45,13 @@ public class ExceptionHandlingMiddleware
                 TraceId = context.TraceIdentifier
             }),
             
+            AlreadyExistsException e => (StatusCodes.Status409Conflict, new ErrorDto
+            {
+               StatusCode = StatusCodes.Status409Conflict,
+               Message = $"Entity already exist: {e.AlreadyExistMessage}",
+               TraceId = context.TraceIdentifier
+            }),
+            
             _ => (StatusCodes.Status500InternalServerError, new ErrorDto
             {
                 StatusCode = StatusCodes.Status500InternalServerError,
