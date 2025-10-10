@@ -33,6 +33,11 @@ public class RoleService(IRoleRepository repository) : IRoleService
 
     public async Task<RoleDto> GetByTitleAsync(string title)
     {
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            throw new ArgumentException("Title is null or empty");
+        }
+        
         var role = await repository.GetByTitleAsync(title);
 
         var roleDto = new RoleDto
