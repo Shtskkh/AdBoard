@@ -11,5 +11,5 @@ public interface IRepository<TEntity, TKey, TContext>
     Task<TEntity?> GetByIdAsync(TKey id);
     Task AddAsync(TEntity entity);
     Task UpdateAsync(TEntity entity);
-    Task<bool> DeleteAsync(TKey id);
+    Task DeleteAsync(TKey id);
 }

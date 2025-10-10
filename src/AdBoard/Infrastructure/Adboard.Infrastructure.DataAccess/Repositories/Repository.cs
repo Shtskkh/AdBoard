@@ -39,17 +39,13 @@ public class Repository<TEntity, TKey, TContext> : IRepository<TEntity, TKey, TC
         await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> DeleteAsync(TKey id)
+    public async Task DeleteAsync(TKey id)
     {
         var entity = await GetByIdAsync(id);
-        if (entity == null)
+        if (entity != null)
         {
-            return false;
+            _dbSet.Remove(entity);
+            await _context.SaveChangesAsync();
         }
-        
-        _dbSet.Remove(entity);
-        await _context.SaveChangesAsync();
-        
-        return true;
     }
 }
