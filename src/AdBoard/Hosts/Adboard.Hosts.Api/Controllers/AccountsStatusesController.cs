@@ -8,7 +8,7 @@ namespace Adboard.Hosts.Api.Controllers;
 public class AccountsStatusesController(IAccountStatusService service) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAllAsync()
     {
         var statuses = await service.GetAllAsync();
 
@@ -21,7 +21,7 @@ public class AccountsStatusesController(IAccountStatusService service) : Control
     }
 
     [HttpGet("{id:int}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetByIdAsync(int id)
     {
         var status = await service.GetByIdAsync(id);
 
