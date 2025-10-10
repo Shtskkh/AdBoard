@@ -18,13 +18,9 @@ public class RoleService(IRoleRepository repository) : IRoleService
         return rolesDto.ToList().AsReadOnly();
     }
 
-    public async Task<RoleDto?> GetByIdAsync(int id)
+    public async Task<RoleDto> GetByIdAsync(int id)
     {
         var role = await repository.GetByIdAsync(id);
-        if (role == null)
-        {
-            return null;
-        }
 
         var roleDto = new RoleDto
         {
@@ -35,13 +31,9 @@ public class RoleService(IRoleRepository repository) : IRoleService
         return roleDto;
     }
 
-    public async Task<RoleDto?> GetByTitleAsync(string title)
+    public async Task<RoleDto> GetByTitleAsync(string title)
     {
         var role = await repository.GetByTitleAsync(title);
-        if (role == null)
-        {
-            return null;
-        }
 
         var roleDto = new RoleDto
         {

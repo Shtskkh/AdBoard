@@ -1,0 +1,55 @@
+using Adboard.AppServices.Exceptions;
+using Adboard.Contracts.Errors;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+
+namespace Adboard.Infrastructure.Middlewares;
+
+public class ExceptionHandlingMiddleware
+{
+    private readonly RequestDelegate _next;
+    
+    public ExceptionHandlingMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        try
+        {
+            await _next(context);
+        }
+        catch (Exception e)
+        {
+            await HandleExceptionAsync(context, e);
+        }
+    }
+
+    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    {
+        context.Response.ContentType = "application/json";
+        var errorModel = MapError(context, exception);
+        context.Response.StatusCode = errorModel.Item1;
+
+        return context.Response.WriteAsync(JsonConvert.SerializeObject(errorModel.Item2));
+    }
+
+    private static (int, ErrorDto) MapError(HttpContext context, Exception exception) =>
+        exception switch
+        {
+            NotFoundException e => (StatusCodes.Status404NotFound, new ErrorDto
+            {
+                StatusCode = StatusCodes.Status404NotFound,
+                Message = $"Entity not found error: {e.NotFoundMessage}",
+                TraceId = context.TraceIdentifier
+            }),
+            
+            _ => (StatusCodes.Status500InternalServerError, new ErrorDto
+            {
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Message = "Internal server error, try again later.",
+                TraceId = context.TraceIdentifier
+            })
+        };
+}
