@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adboard.AppServices", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adboard.Contracts", "src\AdBoard\Contracts\Adboard.Contracts\Adboard.Contracts.csproj", "{ABDFD57C-F487-49C9-A12D-270EA490BF5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adboard.Infrastructure", "src\AdBoard\Infrastructure\Adboard.Infrastructure\Adboard.Infrastructure.csproj", "{381CAA5D-A7AE-4EE1-AEC6-F907BC916C75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,7 @@ Global
 		{DAF8307B-56E8-4E5B-83D7-A947E7BC38AA} = {51A63F72-EF3B-4CE9-ADEA-A620563DFB23}
 		{31BCC33B-7741-4EA9-BE48-943D2F5E6E79} = {BAF5C447-463C-4376-A09C-C2009D168DA2}
 		{ABDFD57C-F487-49C9-A12D-270EA490BF5B} = {3C322E12-7DBB-40E6-90FA-EDFEC0A0C307}
+		{381CAA5D-A7AE-4EE1-AEC6-F907BC916C75} = {51A63F72-EF3B-4CE9-ADEA-A620563DFB23}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1397106B-E6FA-4A13-B0CD-3ADF078DD902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -83,5 +86,9 @@ Global
 		{ABDFD57C-F487-49C9-A12D-270EA490BF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABDFD57C-F487-49C9-A12D-270EA490BF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABDFD57C-F487-49C9-A12D-270EA490BF5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{381CAA5D-A7AE-4EE1-AEC6-F907BC916C75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{381CAA5D-A7AE-4EE1-AEC6-F907BC916C75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{381CAA5D-A7AE-4EE1-AEC6-F907BC916C75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{381CAA5D-A7AE-4EE1-AEC6-F907BC916C75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
