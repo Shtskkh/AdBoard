@@ -24,12 +24,6 @@ public class RolesController(IRoleService service) : ControllerBase
     public async Task<IActionResult> GetByIdAsync(int id)
     {
         var role = await service.GetByIdAsync(id);
-        
-        if (role == null)
-        {
-            return NotFound();
-        }
-        
         return Ok(role);
     }
 
@@ -37,12 +31,6 @@ public class RolesController(IRoleService service) : ControllerBase
     public async Task<IActionResult> GetByTitleAsync(string title)
     {
         var role = await service.GetByTitleAsync(title);
-
-        if (role == null)
-        {
-            return NotFound();
-        }
-        
         return Ok(role);
     }
 }

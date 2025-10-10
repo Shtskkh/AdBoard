@@ -1,4 +1,5 @@
 using Adboard.AppServices.Contexts.Roles.Repositories;
+using Adboard.AppServices.Exceptions;
 using Adboard.Domain.Entities;
 using Adboard.Infrastructure.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -14,17 +15,18 @@ public class RoleRepository
         return roles.AsReadOnly();
     }
 
-    public async Task<Role?> GetByIdAsync(int id)
+    public async Task<Role> GetByIdAsync(int id)
     {
-        return await repository.GetByIdAsync(id);
+        return await repository.GetByIdAsync(id) ?? throw new NotFoundException(notFoundMessage:
+            $"Role with id: {id} not found.");
     }
 
-    public async Task<Role?> GetByTitleAsync(string title)
+    public async Task<Role> GetByTitleAsync(string title)
     {
         var role = await repository.GetAllAsync()
             .Where(r => r.Title == title)
             .FirstOrDefaultAsync();
-        
-        return role;
+
+        return role ?? throw new NotFoundException(notFoundMessage: $"Role with title: {title} not found.");
     }
 }
