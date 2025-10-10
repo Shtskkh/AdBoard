@@ -17,13 +17,9 @@ public class AccountStatusService(IAccountStatusRepository repository) : IAccoun
         return statusesDto.ToList().AsReadOnly();
     }
 
-    public async Task<AccountStatusDto?> GetByIdAsync(int id)
+    public async Task<AccountStatusDto> GetByIdAsync(int id)
     {
         var status = await repository.GetByIdAsync(id);
-        if (status == null)
-        {
-            return null;
-        }
 
         var statusDto = new AccountStatusDto
         {
@@ -34,7 +30,7 @@ public class AccountStatusService(IAccountStatusRepository repository) : IAccoun
         return statusDto;
     }
 
-    public async Task<AccountStatusDto?> GetByTitleAsync(string title)
+    public async Task<AccountStatusDto> GetByTitleAsync(string title)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
@@ -42,10 +38,6 @@ public class AccountStatusService(IAccountStatusRepository repository) : IAccoun
         }
         
         var status = await repository.GetByTitleAsync(title);
-        if (status == null)
-        {
-            return null;
-        }
 
         var statusDto = new AccountStatusDto
         {

@@ -24,12 +24,6 @@ public class AccountsStatusesController(IAccountStatusService service) : Control
     public async Task<IActionResult> GetByIdAsync(int id)
     {
         var status = await service.GetByIdAsync(id);
-
-        if (status == null)
-        {
-            return NotFound();
-        }
-        
         return Ok(status);
     }
 
@@ -37,12 +31,6 @@ public class AccountsStatusesController(IAccountStatusService service) : Control
     public async Task<IActionResult> GetByTitleAsync(string title)
     {
         var status = await service.GetByTitleAsync(title);
-
-        if (status == null)
-        {
-            return NotFound();
-        }
-        
         return Ok(status);
     }
 }

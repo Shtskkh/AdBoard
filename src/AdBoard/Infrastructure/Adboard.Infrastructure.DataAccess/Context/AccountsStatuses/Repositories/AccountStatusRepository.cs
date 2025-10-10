@@ -1,4 +1,5 @@
 using Adboard.AppServices.Contexts.AccountsStatuses.Repositories;
+using Adboard.AppServices.Exceptions;
 using Adboard.Domain.Entities;
 using Adboard.Infrastructure.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -14,17 +15,19 @@ public class AccountStatusRepository
         return accountStatuses.AsReadOnly();
     }
 
-    public async Task<AccountStatus?> GetByIdAsync(int id)
+    public async Task<AccountStatus> GetByIdAsync(int id)
     {
-        return await repository.GetByIdAsync(id);
+        return await repository.GetByIdAsync(id) ?? 
+               throw new NotFoundException($"Account status with id: {id} not found");
     }
 
-    public async Task<AccountStatus?> GetByTitleAsync(string title)
+    public async Task<AccountStatus> GetByTitleAsync(string title)
     {
         var accountStatus = await repository.GetAllAsync()
             .Where(a => a.Title == title)
             .FirstOrDefaultAsync();
         
-        return accountStatus;
+        return accountStatus ?? 
+               throw new NotFoundException($"Account status with title: {title} not found");;
     }
 }
