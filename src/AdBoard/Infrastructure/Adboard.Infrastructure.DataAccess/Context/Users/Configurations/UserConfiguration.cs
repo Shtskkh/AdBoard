@@ -33,9 +33,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .WithMany(x => x.Users)
             .HasForeignKey(x => x.RoleId);
         
-        builder.HasOne(x => x.Status)
+        builder.HasOne(x => x.AccountStatus)
             .WithMany(x => x.Users)
-            .HasForeignKey(x => x.StatusId);
+            .HasForeignKey(x => x.AccountStatusId);
         
         builder.HasMany(x => x.Adverts)
             .WithOne(x => x.User)

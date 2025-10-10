@@ -1,6 +1,5 @@
 using Adboard.AppServices.Contexts.AccountsStatuses.Repositories;
 using Adboard.Contracts.AccountsStatuses;
-using Adboard.Domain.Entities;
 
 namespace Adboard.AppServices.Contexts.AccountsStatuses.Services;
 
@@ -18,20 +17,42 @@ public class AccountStatusService(IAccountStatusRepository repository) : IAccoun
         return statusesDto.ToList().AsReadOnly();
     }
 
-    public async Task<int> AddAsync(CreateAccountStatusDto dto)
+    public async Task<AccountStatusDto?> GetByIdAsync(int id)
     {
-        if (string.IsNullOrWhiteSpace(dto.Title))
+        var status = await repository.GetByIdAsync(id);
+        if (status == null)
         {
-            throw new ArgumentException("Title is required");
+            return null;
         }
-        
-        var status = new AccountStatus
+
+        var statusDto = new AccountStatusDto
         {
-            Title = dto.Title
+            Id = status.Id,
+            Title = status.Title,
         };
         
-        var id = await repository.AddAsync(status);
+        return statusDto;
+    }
+
+    public async Task<AccountStatusDto?> GetByTitleAsync(string title)
+    {
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            throw new ArgumentException("Title is null or empty");
+        }
         
-        return id;
+        var status = await repository.GetByTitleAsync(title);
+        if (status == null)
+        {
+            return null;
+        }
+
+        var statusDto = new AccountStatusDto
+        {
+            Id = status.Id,
+            Title = status.Title,
+        };
+        
+        return statusDto;
     }
 }

@@ -15,11 +15,11 @@ public class User : IEntity<Guid>
     
     // FKs
     public int RoleId { get; set; }
-    public int StatusId { get; set; }
+    public int AccountStatusId { get; set; }
 
     // Navigation Properties
     public Role Role { get; set; }
-    public AccountStatus Status { get; set; }
+    public AccountStatus AccountStatus { get; set; }
     public ICollection<Advert> Adverts { get; set; }
     public ICollection<AdvertComment> AdvertComments { get; set; }
 }

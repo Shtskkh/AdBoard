@@ -27,27 +27,4 @@ public class AccountStatusRepository
         
         return entity;
     }
-
-    public async Task<int> AddAsync(AccountStatus entity)
-    {
-        var isDuplicate = await GetByTitleAsync(entity.Title) != null;
-
-        if (isDuplicate)
-        {
-            throw new ArgumentException("Title already exists");
-        }
-        
-        await repository.AddAsync(entity);
-        return entity.Id;
-    }
-
-    public async Task UpdateAsync(AccountStatus entity)
-    {
-        await repository.UpdateAsync(entity);
-    }
-
-    public async Task<bool> DeleteAsync(AccountStatus entity)
-    {
-        return await repository.DeleteAsync(entity.Id);
-    }
 }

@@ -1,7 +1,4 @@
-using System.Net;
 using Adboard.AppServices.Contexts.AccountsStatuses.Services;
-using Adboard.Contracts.AccountsStatuses;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Adboard.Hosts.Api.Controllers;
@@ -23,10 +20,29 @@ public class AccountsStatusesController(IAccountStatusService service) : Control
         return Ok(statuses);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromBody]CreateAccountStatusDto dto)
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetById(int id)
     {
-        var id = await service.AddAsync(dto);
-        return StatusCode((int)HttpStatusCode.Created, id);
+        var status = await service.GetByIdAsync(id);
+
+        if (status == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(status);
+    }
+
+    [HttpGet("{title}")]
+    public async Task<IActionResult> GetByTitleAsync(string title)
+    {
+        var status = await service.GetByTitleAsync(title);
+
+        if (status == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(status);
     }
 }

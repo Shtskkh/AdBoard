@@ -5,5 +5,6 @@ namespace Adboard.AppServices.Contexts.AccountsStatuses.Services;
 public interface IAccountStatusService
 {
     Task<IReadOnlyCollection<AccountStatusDto>> GetAllAsync();
-    Task<int> AddAsync(CreateAccountStatusDto dto);
+    Task<AccountStatusDto?> GetByIdAsync(int id);
+    Task<AccountStatusDto?> GetByTitleAsync(string title);
 }
