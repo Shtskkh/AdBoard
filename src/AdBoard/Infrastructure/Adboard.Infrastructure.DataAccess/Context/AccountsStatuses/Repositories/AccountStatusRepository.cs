@@ -11,7 +11,7 @@ public class AccountStatusRepository
     public async Task<IReadOnlyCollection<AccountStatus>> GetAllAsync()
     {
         var accountStatuses = await repository.GetAllAsync().ToListAsync();
-        return accountStatuses;
+        return accountStatuses.AsReadOnly();
     }
 
     public async Task<AccountStatus?> GetByIdAsync(int id)
