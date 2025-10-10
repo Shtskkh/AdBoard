@@ -21,10 +21,10 @@ public class AccountStatusRepository
 
     public async Task<AccountStatus?> GetByTitleAsync(string title)
     {
-        var entity = await repository.GetAllAsync()
+        var accountStatus = await repository.GetAllAsync()
             .Where(a => a.Title == title)
             .FirstOrDefaultAsync();
         
-        return entity;
+        return accountStatus;
     }
 }
