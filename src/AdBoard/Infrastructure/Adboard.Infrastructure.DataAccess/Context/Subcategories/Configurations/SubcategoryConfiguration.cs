@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Adboard.Infrastructure.DataAccess.Context.Subcategories.Configurations;
 
+/// <summary>
+/// Конфигурация для сущности подкатегории объявления
+/// </summary>
 public class SubcategoryConfiguration : IEntityTypeConfiguration<Subcategory>
 {
     public void Configure(EntityTypeBuilder<Subcategory> builder)

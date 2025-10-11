@@ -3,8 +3,11 @@ using Adboard.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Adboard.Infrastructure.DataAccess.Context.AccountStatuses.Configurations;
+namespace Adboard.Infrastructure.DataAccess.Context.AccountsStatuses.Configurations;
 
+/// <summary>
+/// Конфигурация для сущности статуса аккаунта пользователя
+/// </summary>
 public class AccountStatusConfiguration : IEntityTypeConfiguration<AccountStatus>
 {
     public void Configure(EntityTypeBuilder<AccountStatus> builder)

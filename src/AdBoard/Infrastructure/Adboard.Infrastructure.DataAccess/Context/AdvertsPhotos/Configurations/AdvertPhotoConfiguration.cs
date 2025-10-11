@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Adboard.Infrastructure.DataAccess.Context.AdvertsPhotos.Configurations;
 
+/// <summary>
+/// Конфигурация для сущности фотографий объявления
+/// </summary>
 public class AdvertPhotoConfiguration : IEntityTypeConfiguration<AdvertPhoto>
 {
     public void Configure(EntityTypeBuilder<AdvertPhoto> builder)

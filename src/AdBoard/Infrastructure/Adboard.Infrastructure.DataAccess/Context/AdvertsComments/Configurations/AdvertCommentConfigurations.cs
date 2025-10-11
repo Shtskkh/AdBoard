@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Adboard.Infrastructure.DataAccess.Context.AdvertsComments.Configurations;
 
+/// <summary>
+/// Конфигурация для сущности комментария для объявления
+/// </summary>
 public class AdvertCommentConfigurations : IEntityTypeConfiguration<AdvertComment>
 {
     public void Configure(EntityTypeBuilder<AdvertComment> builder)

@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Adboard.Infrastructure.DataAccess.Context.Categories.Configurations;
 
+/// <summary>
+/// Конфигурация для сущности категории объявления
+/// </summary>
 public class CategoryConfiguration : IEntityTypeConfiguration<Category>
 {
     public void Configure(EntityTypeBuilder<Category> builder)
