@@ -1,5 +1,6 @@
 using Adboard.AppServices.Contexts.Categories.Repositories;
 using Adboard.AppServices.Exceptions;
+using Adboard.Contracts.Categories;
 using Adboard.Domain.Entities;
 using Adboard.Infrastructure.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -29,16 +30,41 @@ public class CategoryRepository
         return category ?? throw new NotFoundException($"Category with title: {title} not found");
     }
 
-    public async Task<int> AddAsync(Category category)
+    public async Task<int> AddAsync(CreateCategoryDto createDto)
     {
-        await repository.AddAsync(category);
-        return category.Id;
+        try
+        {
+            await GetByTitleAsync(createDto.Title);
+            throw new AlreadyExistsException($"Category with title: {createDto.Title} already exists");
+        }
+        catch (NotFoundException)
+        {
+            var newCategory = new Category
+            {
+                Title = createDto.Title
+            };
+            
+            await repository.AddAsync(newCategory);
+            return newCategory.Id;
+        }
     }
 
-    public async Task<Category> UpdateAsync(Category category)
+    public async Task<Category> UpdateAsync(UpdateCategoryDto updateDto)
     {
-        await repository.UpdateAsync(category);
-        return category;
+        try
+        {
+            await GetByTitleAsync(updateDto.Title);
+            throw new AlreadyExistsException($"Category with title: {updateDto.Title} already exists");
+        }
+        catch (NotFoundException)
+        {
+            var existedCategory = await GetByIdAsync(updateDto.Id);
+            existedCategory.Title = updateDto.Title;
+            
+            await repository.UpdateAsync(existedCategory);
+            
+            return existedCategory;
+        }
     }
 
     public async Task DeleteAsync(int id)

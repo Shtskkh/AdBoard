@@ -26,22 +26,8 @@ public class CategoryService(ICategoryRepository repository) : ICategoryService
         {
             throw new ArgumentException("Title is required.");
         }
-
-        try
-        { 
-            await repository.GetByTitleAsync(createDto.Title);
-            throw new AlreadyExistsException("Category with the given title already exists.");
-        }
         
-        catch (NotFoundException)
-        {
-            var category = new Category
-            {
-                Title = createDto.Title
-            };
-            
-            return await repository.AddAsync(category);
-        }
+        return await repository.AddAsync(createDto);
     }
 
     public async Task<CategoryDto> UpdateAsync(UpdateCategoryDto updateDto)
@@ -51,27 +37,15 @@ public class CategoryService(ICategoryRepository repository) : ICategoryService
             throw new ArgumentException("Title is required.");
         }
 
-        var category = await repository.GetByIdAsync(updateDto.Id);
-        
-        try
-        {
-            await repository.GetByTitleAsync(updateDto.Title);
-            throw new AlreadyExistsException("Category with the given title already exists.");
-        }
-        catch (NotFoundException)
-        {
-            category.Title = updateDto.Title;
-        
-            var updatedCategory = await repository.UpdateAsync(category);
+        var updatedCategory = await repository.UpdateAsync(updateDto);
 
-            var dto = new CategoryDto
-            {
-                Id = updatedCategory.Id,
-                Title = updatedCategory.Title
-            };
-        
-            return dto;
-        }
+        var dto = new CategoryDto
+        {
+            Id = updatedCategory.Id,
+            Title = updatedCategory.Title
+        };
+
+        return dto;
     }
 
     public async Task DeleteAsync(int id)
