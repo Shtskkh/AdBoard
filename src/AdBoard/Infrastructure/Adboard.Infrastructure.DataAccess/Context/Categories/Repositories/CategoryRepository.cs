@@ -35,20 +35,15 @@ public class CategoryRepository
         return category.Id;
     }
 
-    public async Task UpdateAsync(Category category)
+    public async Task<Category> UpdateAsync(Category category)
     {
         await repository.UpdateAsync(category);
+        return category;
     }
 
     public async Task DeleteAsync(int id)
-    {
-        var category = await repository.GetByIdAsync(id);
-
-        if (category == null)
-        {
-            throw new NotFoundException($"Category with id: {id} not found");
-        }
-        
+    { 
+        await repository.GetByIdAsync(id);
         await repository.DeleteAsync(id);
     }
 }

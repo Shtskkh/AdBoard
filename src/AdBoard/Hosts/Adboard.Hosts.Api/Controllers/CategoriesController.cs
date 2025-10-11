@@ -16,9 +16,23 @@ public class CategoriesController(ICategoryService service) : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto category)
+    public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto createDto)
     {
-        var id = await service.AddAsync(category);
+        var id = await service.AddAsync(createDto);
         return Ok(id);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryDto updateDto)
+    {
+        var category = await service.UpdateAsync(updateDto);
+        return Ok(category);
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteAsync(int id)
+    {
+        await service.DeleteAsync(id);
+        return Ok();
     }
 }

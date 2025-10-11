@@ -14,7 +14,7 @@ public class CategoryService(ICategoryRepository repository) : ICategoryService
         var dto = new CategoryDto
         {
             Id = category.Id,
-            Title = category.Title,
+            Title = category.Title
         };
         
         return dto;
@@ -28,8 +28,8 @@ public class CategoryService(ICategoryRepository repository) : ICategoryService
         }
 
         try
-        {
-            var existingCategory = await repository.GetByTitleAsync(createDto.Title);
+        { 
+            await repository.GetByTitleAsync(createDto.Title);
             throw new AlreadyExistsException("Category with the given title already exists.");
         }
         
@@ -37,10 +37,46 @@ public class CategoryService(ICategoryRepository repository) : ICategoryService
         {
             var category = new Category
             {
-                Title = createDto.Title,
+                Title = createDto.Title
             };
             
             return await repository.AddAsync(category);
         }
+    }
+
+    public async Task<CategoryDto> UpdateAsync(UpdateCategoryDto updateDto)
+    { 
+        
+        var category = await repository.GetByIdAsync(updateDto.Id);
+
+        if (string.IsNullOrWhiteSpace(updateDto.Title))
+        {
+            throw new ArgumentException("Title is required.");
+        }
+
+        try
+        {
+            await repository.GetByTitleAsync(updateDto.Title);
+            throw new AlreadyExistsException("Category with the given title already exists.");
+        }
+        catch (NotFoundException)
+        {
+            category.Title = updateDto.Title;
+        
+            var updatedCategory = await repository.UpdateAsync(category);
+
+            var dto = new CategoryDto
+            {
+                Id = updatedCategory.Id,
+                Title = updatedCategory.Title
+            };
+        
+            return dto;
+        }
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        await repository.DeleteAsync(id);
     }
 }
