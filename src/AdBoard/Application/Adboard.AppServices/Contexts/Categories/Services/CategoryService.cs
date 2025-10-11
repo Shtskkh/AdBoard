@@ -1,7 +1,5 @@
 using Adboard.AppServices.Contexts.Categories.Repositories;
-using Adboard.AppServices.Exceptions;
 using Adboard.Contracts.Categories;
-using Adboard.Domain.Entities;
 
 namespace Adboard.AppServices.Contexts.Categories.Services;
 
