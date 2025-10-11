@@ -30,41 +30,46 @@ public class CategoryRepository
         return category ?? throw new NotFoundException($"Category with title: {title} not found");
     }
 
+    private async Task<bool> CategoryExists(string title)
+    {
+        return await repository.GetAllAsync().AnyAsync(c => c.Title == title);
+    }
+
     public async Task<int> AddAsync(CreateCategoryDto createDto)
     {
-        try
+        
+        var categoryExists = await CategoryExists(createDto.Title);
+
+        if (categoryExists)
         {
-            await GetByTitleAsync(createDto.Title);
             throw new AlreadyExistsException($"Category with title: {createDto.Title} already exists");
         }
-        catch (NotFoundException)
+        
+        var newCategory = new Category
         {
-            var newCategory = new Category
-            {
-                Title = createDto.Title
-            };
+            Title = createDto.Title
+        };
             
-            await repository.AddAsync(newCategory);
-            return newCategory.Id;
-        }
+        await repository.AddAsync(newCategory);
+        return newCategory.Id;
     }
 
     public async Task<Category> UpdateAsync(UpdateCategoryDto updateDto)
     {
-        try
+        
+        var categoryExists = await CategoryExists(updateDto.Title);
+
+        if (categoryExists)
         {
-            await GetByTitleAsync(updateDto.Title);
             throw new AlreadyExistsException($"Category with title: {updateDto.Title} already exists");
         }
-        catch (NotFoundException)
-        {
-            var existedCategory = await GetByIdAsync(updateDto.Id);
-            existedCategory.Title = updateDto.Title;
+        
+        var category = await GetByIdAsync(updateDto.Id);
+        category.Title = updateDto.Title;
             
-            await repository.UpdateAsync(existedCategory);
+        await repository.UpdateAsync(category);
             
-            return existedCategory;
-        }
+        return category;
     }
 
     public async Task DeleteAsync(int id)
