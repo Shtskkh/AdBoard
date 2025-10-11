@@ -45,15 +45,14 @@ public class CategoryService(ICategoryRepository repository) : ICategoryService
     }
 
     public async Task<CategoryDto> UpdateAsync(UpdateCategoryDto updateDto)
-    { 
-        
-        var category = await repository.GetByIdAsync(updateDto.Id);
-
+    {
         if (string.IsNullOrWhiteSpace(updateDto.Title))
         {
             throw new ArgumentException("Title is required.");
         }
 
+        var category = await repository.GetByIdAsync(updateDto.Id);
+        
         try
         {
             await repository.GetByTitleAsync(updateDto.Title);
