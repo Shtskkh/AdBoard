@@ -2,6 +2,9 @@ using System.Runtime.Serialization;
 
 namespace Adboard.AppServices.Exceptions;
 
+/// <summary>
+/// Исключение для объекта, который уже существует в системе
+/// </summary>
 public class AlreadyExistsException : Exception
 {
     public string AlreadyExistMessage { get; set; }

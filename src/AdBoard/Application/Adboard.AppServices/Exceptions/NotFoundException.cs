@@ -2,6 +2,9 @@ using System.Runtime.Serialization;
 
 namespace Adboard.AppServices.Exceptions;
 
+/// <summary>
+/// Исключение для объекта, который не был найден в системе
+/// </summary>
 public class NotFoundException : Exception
 {
     public string NotFoundMessage { get; set; }
