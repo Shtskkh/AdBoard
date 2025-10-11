@@ -4,9 +4,12 @@ using Adboard.AppServices.Contexts.Categories.Repositories;
 using Adboard.AppServices.Contexts.Categories.Services;
 using Adboard.AppServices.Contexts.Roles.Repositories;
 using Adboard.AppServices.Contexts.Roles.Services;
+using Adboard.AppServices.Contexts.Subcategories;
+using Adboard.AppServices.Contexts.Subcategories.Services;
 using Adboard.Infrastructure.DataAccess.Context.AccountsStatuses.Repositories;
 using Adboard.Infrastructure.DataAccess.Context.Categories.Repositories;
 using Adboard.Infrastructure.DataAccess.Context.Roles.Repositories;
+using Adboard.Infrastructure.DataAccess.Context.Subcategories.Repositories;
 using Adboard.Infrastructure.DataAccess.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -19,6 +22,7 @@ public static class ComponentRegister
         services.AddScoped<IAccountStatusService, AccountStatusService>();
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<ISubcategoryService, SubcategoryService>();
         
         return services;
     }
@@ -29,6 +33,7 @@ public static class ComponentRegister
         services.AddScoped<IAccountStatusRepository, AccountStatusRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
         
         return services;
     }
