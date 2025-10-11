@@ -43,7 +43,6 @@ public class CategoryRepository
 
     public async Task DeleteAsync(int id)
     { 
-        await repository.GetByIdAsync(id);
         await repository.DeleteAsync(id);
     }
 }
