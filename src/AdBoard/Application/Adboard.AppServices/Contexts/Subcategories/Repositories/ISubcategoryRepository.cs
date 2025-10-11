@@ -1,13 +1,13 @@
+using Adboard.Contracts.Subcategories;
 using Adboard.Domain.Entities;
 
-namespace Adboard.AppServices.Contexts.Subcategories;
+namespace Adboard.AppServices.Contexts.Subcategories.Repositories;
 
 public interface ISubcategoryRepository
 {
     Task<Subcategory> GetByIdAsync(int id);
-    Task<Subcategory> GetByCategoryIdAndTitleAsync(int categoryId, string title);
     Task<IReadOnlyCollection<Subcategory>> GetByTitleAsync(string title);
-    Task<int> AddAsync(Subcategory subcategory);
-    Task<Subcategory> UpdateAsync(Subcategory subcategory);
+    Task<int> AddAsync(CreateSubcategoryDto createDto);
+    Task<Subcategory> UpdateAsync(UpdateSubcategoryDto updateDto);
     Task DeleteAsync(int id);
 }
