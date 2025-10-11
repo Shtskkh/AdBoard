@@ -52,6 +52,13 @@ public class ExceptionHandlingMiddleware
                TraceId = context.TraceIdentifier
             }),
             
+            ArgumentException e => (StatusCodes.Status400BadRequest, new ErrorDto
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Message = $"Argument error: {e.Message}",
+                TraceId = context.TraceIdentifier
+            }),
+            
             _ => (StatusCodes.Status500InternalServerError, new ErrorDto
             {
                 StatusCode = StatusCodes.Status500InternalServerError,
