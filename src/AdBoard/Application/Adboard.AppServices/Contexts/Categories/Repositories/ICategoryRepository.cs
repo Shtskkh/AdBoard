@@ -7,7 +7,7 @@ public interface ICategoryRepository
 {
     Task<IReadOnlyCollection<Category>> GetAllAsync();
     Task<Category> GetByIdAsync(int id);
-    Task<Category> GetByTitleAsync(string title);
+    Task<IReadOnlyCollection<Category>> GetByTitleAsync(string title);
     Task<int> AddAsync(CreateCategoryDto category);
     Task<Category> UpdateAsync(UpdateCategoryDto category);
     Task DeleteAsync(int id);

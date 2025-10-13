@@ -16,6 +16,26 @@ namespace Adboard.Hosts.Api.Controllers;
 public class CategoriesController(ICategoryService service) : ControllerBase
 {
     /// <summary>
+    /// Получить все категории с их подкатегориями
+    /// </summary>
+    /// <returns>Массив подкатегорий с их категориями</returns>
+    /// <response code="404">Категории не найдены</response>
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<CategoryDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetAllAsync()
+    {
+        var categories = await service.GetAllAsync();
+
+        if (categories.Count == 0)
+        {
+            return NotFound();
+        }
+        
+        return Ok(categories);
+    }
+    
+    /// <summary>
     /// Получить категорию по id
     /// </summary>
     /// <param name="id">Id категории</param>
@@ -28,6 +48,21 @@ public class CategoriesController(ICategoryService service) : ControllerBase
     {
         var category = await service.GetByIdAsync(id);
         return Ok(category);
+    }
+
+    /// <summary>
+    /// Получить категории, частично или полностью совпадающие с данным названием
+    /// </summary>
+    /// <param name="title">Название категории</param>
+    /// <returns>Массив категорий</returns>
+    [HttpGet("{title}")]
+    [ProducesResponseType(typeof(SubcategoryDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetByTitleAsync(string title)
+    {
+        var categories =  await service.GetByTitleAsync(title);
+        return Ok(categories);
     }
     
     /// <summary>

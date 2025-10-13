@@ -12,22 +12,30 @@ public class CategoryRepository
 {
     public async Task<IReadOnlyCollection<Category>> GetAllAsync()
     {
-        var categories = await repository.GetAllAsync().ToListAsync();
+        var categories = await repository.GetAllAsync()
+            .Include(c => c.Subcategories)
+            .ToListAsync();
         return categories.AsReadOnly();
     }
 
     public async Task<Category> GetByIdAsync(int id)
     {
-        var category = await repository.GetByIdAsync(id);
+        var category = await repository.GetAllAsync()
+            .Where(c => c.Id == id)
+            .Include(c => c.Subcategories)
+            .FirstOrDefaultAsync();
+        
         return category ?? throw new NotFoundException($"Category with id: {id} not found");
     }
 
-    public async Task<Category> GetByTitleAsync(string title)
+    public async Task<IReadOnlyCollection<Category>> GetByTitleAsync(string title)
     {
         var category = await repository.GetAllAsync()
-            .FirstOrDefaultAsync(c => c.Title == title);
+            .Where(c => EF.Functions.Like(c.Title, $"%{title}%"))
+            .Include(c => c.Subcategories)
+            .ToListAsync();
         
-        return category ?? throw new NotFoundException($"Category with title: {title} not found");
+        return category.AsReadOnly() ?? throw new NotFoundException($"Category with title: {title} not found");
     }
 
     private async Task<bool> CategoryExists(string title)

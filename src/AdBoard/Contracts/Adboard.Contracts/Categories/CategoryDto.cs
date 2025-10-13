@@ -1,3 +1,5 @@
+using Adboard.Contracts.Subcategories;
+
 namespace Adboard.Contracts.Categories;
 
 /// <summary>
@@ -13,5 +15,10 @@ public class CategoryDto
     /// <summary>
     /// Название категории
     /// </summary>
-    public string Title { get; set; }
+    public required string Title { get; set; }
+    
+    /// <summary>
+    /// Коллекция подкатегорий
+    /// </summary>
+    public IReadOnlyCollection<ShortSubcategoryDto> Subcategories { get; set; }
 }
