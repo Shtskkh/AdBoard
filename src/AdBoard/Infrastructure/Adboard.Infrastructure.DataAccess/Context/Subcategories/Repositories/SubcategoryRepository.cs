@@ -23,7 +23,7 @@ public class SubcategoryRepository
     public async Task<IReadOnlyCollection<Subcategory>> GetByTitleAsync(string title)
     {
         var subcategories = await repository.GetAllAsync()
-            .Where(s => EF.Functions.Like(s.Title, $"%{title}%"))
+            .Where(s => EF.Functions.ILike(s.Title, $"%{title}%"))
             .Include(s => s.Category) 
             .ToListAsync();
         
