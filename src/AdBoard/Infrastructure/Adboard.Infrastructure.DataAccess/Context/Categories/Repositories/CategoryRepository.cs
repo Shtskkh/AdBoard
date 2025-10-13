@@ -40,7 +40,7 @@ public class CategoryRepository
         return category.AsReadOnly() ?? throw new NotFoundException($"Category with title: {title} not found");
     }
 
-    private async Task<bool> CategoryExists(string title)
+    private async Task<bool> IsExistedCategory(string title)
     {
         return await repository.GetAllAsync().AnyAsync(c => c.Title == title);
     }
@@ -48,7 +48,7 @@ public class CategoryRepository
     public async Task<int> AddAsync(CreateCategoryDto createDto)
     {
         
-        var categoryExists = await CategoryExists(createDto.Title);
+        var categoryExists = await IsExistedCategory(createDto.Title);
 
         if (categoryExists)
         {
@@ -67,7 +67,7 @@ public class CategoryRepository
     public async Task<Category> UpdateAsync(UpdateCategoryDto updateDto)
     {
         
-        var categoryExists = await CategoryExists(updateDto.Title);
+        var categoryExists = await IsExistedCategory(updateDto.Title);
 
         if (categoryExists)
         {
