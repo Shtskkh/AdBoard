@@ -15,13 +15,6 @@ public class SubcategoryRepository
         var subcategory = await repository.GetAllAsync()
             .Where(s => s.Id == id)
             .Include(s => s.Category)
-            .Select(s => new Subcategory
-            {
-                Id = s.Id,
-                Title = s.Title,
-                CategoryId = s.CategoryId,
-                Category = s.Category
-            })
             .FirstOrDefaultAsync();
         
         return subcategory ?? throw new NotFoundException($"Subcategory with id: {id} not found.");
@@ -31,14 +24,8 @@ public class SubcategoryRepository
     {
         var subcategories = await repository.GetAllAsync()
             .Where(s => EF.Functions.Like(s.Title, $"%{title}%"))
-            .Include(s => s.Category)
-            .Select(s => new Subcategory
-            {
-                Id = s.Id,
-                Title = s.Title,
-                CategoryId = s.CategoryId,
-                Category = s.Category
-            }).ToListAsync();
+            .Include(s => s.Category) 
+            .ToListAsync();
         
         return subcategories.AsReadOnly();
     }
