@@ -10,10 +10,12 @@ builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseNp
     builder.Configuration.GetConnectionString("DbConnection")
 ));
 
-builder.Services.RegisterRepository();
+builder.Services.RegisterRepositories();
 builder.Services.RegisterServices();
 
 builder.Services.AddControllers();
+builder.Services.AddFluentValidation();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(options =>
 {
