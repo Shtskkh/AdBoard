@@ -24,7 +24,8 @@ public class SubcategoryRepository
     {
         var subcategories = await repository.GetAllAsync()
             .Where(s => EF.Functions.ILike(s.Title, $"%{title}%"))
-            .Include(s => s.Category) 
+            .Include(s => s.Category)
+            .OrderBy(s => s.Id)
             .ToListAsync();
         
         return subcategories.AsReadOnly();

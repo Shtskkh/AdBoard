@@ -11,7 +11,9 @@ public class RoleRepository
 {
     public async Task<IReadOnlyCollection<Role>> GetAllAsync()
     {
-        var roles = await repository.GetAllAsync().ToListAsync();
+        var roles = await repository.GetAllAsync()
+            .OrderBy(a => a.Id)
+            .ToListAsync();
         return roles.AsReadOnly();
     }
 
@@ -21,6 +23,7 @@ public class RoleRepository
             $"Role with id: {id} not found.");
     }
 
+    // Todo: переделать на массивный результат
     public async Task<Role> GetByTitleAsync(string title)
     {
         var role = await repository.GetAllAsync()

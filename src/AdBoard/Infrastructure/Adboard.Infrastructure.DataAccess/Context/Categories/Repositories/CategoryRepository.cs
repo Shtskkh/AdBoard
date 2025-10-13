@@ -14,6 +14,7 @@ public class CategoryRepository
     {
         var categories = await repository.GetAllAsync()
             .Include(c => c.Subcategories)
+            .OrderBy(a => a.Id)
             .ToListAsync();
         return categories.AsReadOnly();
     }
@@ -22,7 +23,7 @@ public class CategoryRepository
     {
         var category = await repository.GetAllAsync()
             .Where(c => c.Id == id)
-            .Include(c => c.Subcategories)
+            .Include(c => c.Subcategories.OrderBy(a => a.Id))
             .FirstOrDefaultAsync();
         
         return category ?? throw new NotFoundException($"Category with id: {id} not found");
@@ -33,6 +34,7 @@ public class CategoryRepository
         var category = await repository.GetAllAsync()
             .Where(c => EF.Functions.ILike(c.Title, $"%{title}%"))
             .Include(c => c.Subcategories)
+            .OrderBy(c => c.Id)
             .ToListAsync();
         
         return category.AsReadOnly() ?? throw new NotFoundException($"Category with title: {title} not found");

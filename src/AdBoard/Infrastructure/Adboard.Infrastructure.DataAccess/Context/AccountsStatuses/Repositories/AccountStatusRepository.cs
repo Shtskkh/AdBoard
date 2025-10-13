@@ -11,7 +11,9 @@ public class AccountStatusRepository
 {
     public async Task<IReadOnlyCollection<AccountStatus>> GetAllAsync()
     {
-        var accountStatuses = await repository.GetAllAsync().ToListAsync();
+        var accountStatuses = await repository.GetAllAsync()
+            .OrderBy(a => a.Id)
+            .ToListAsync();
         return accountStatuses.AsReadOnly();
     }
 
@@ -21,6 +23,7 @@ public class AccountStatusRepository
                throw new NotFoundException($"Account status with id: {id} not found");
     }
 
+    // Todo: переделать на массивный результат
     public async Task<AccountStatus> GetByTitleAsync(string title)
     {
         var accountStatus = await repository.GetAllAsync()
