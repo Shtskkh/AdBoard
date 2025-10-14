@@ -19,7 +19,7 @@ using Adboard.Infrastructure.DataAccess.Context.Users.Repositories;
 using Adboard.Infrastructure.DataAccess.Repositories;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 namespace Adboard.Infrastructure.ComponentRegister;
 
@@ -40,7 +40,7 @@ public static class ComponentRegister
 
     public static IServiceCollection AddFluentValidation(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddValidatorsFromAssemblyContaining<CreateUserValidator>();
         services.AddFluentValidationAutoValidation();
         
         return services;
