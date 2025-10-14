@@ -1,9 +1,11 @@
 using Adboard.AppServices.Contexts.Users.Repositories;
 using Adboard.Contracts.Users;
+using Adboard.Domain.Entities;
+using AutoMapper;
 
 namespace Adboard.AppServices.Contexts.Users.Services;
 
-public class UserService(IUserRepository repository) : IUserService
+public class UserService(IUserRepository repository, IMapper mapper) : IUserService
 {
     public async Task<UserDto> GetByIdAsync(Guid id)
     {
@@ -24,13 +26,15 @@ public class UserService(IUserRepository repository) : IUserService
         return dto;
     }
 
-    public async Task<Guid> AddAsync(CreateUserDto dto)
+    public async Task<Guid> AddAsync(CreateUserDto createDto)
     {
-        return await repository.AddAsync(dto);
+        return await repository.AddAsync(createDto);
     }
 
-    public async Task ChangeAccountStatus(string email, int status)
+    public async Task<UserDto> UpdateAsync(UpdateUserDto updateDto)
     {
-        throw new NotImplementedException();
+        var updatedUser = await repository.UpdateAsync(updateDto);
+        var dto = mapper.Map<User, UserDto>(updatedUser);
+        return dto;
     }
 }

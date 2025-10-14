@@ -9,7 +9,12 @@ public class UserProfile : Profile
     public UserProfile()
     {
         CreateMap<UpdateUserDto, User>(MemberList.None)
-            .ForAllMembers(s => 
+            .ForMember(dest => dest.RoleId, opt => opt.PreCondition(src => src.RoleId.HasValue))
+            .ForMember(dest => dest.AccountStatusId, opt => opt.PreCondition(src => src.AccountStatusId.HasValue))
+            .ForAllMembers(s =>
                 s.Condition((src, dest, srcMember) => srcMember != null));
+
+        CreateMap<User, UserDto>(MemberList.None);
+
     }
 }

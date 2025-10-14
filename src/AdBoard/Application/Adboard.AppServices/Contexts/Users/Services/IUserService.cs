@@ -6,5 +6,5 @@ public interface IUserService
 {
     Task<UserDto> GetByIdAsync(Guid id);
     Task<Guid> AddAsync(CreateUserDto dto);
-    Task ChangeAccountStatus(string email, int status);
+    Task<UserDto> UpdateAsync(UpdateUserDto dto);
 }

@@ -6,6 +6,7 @@ using Adboard.Domain.Enums;
 using Adboard.Infrastructure.DataAccess.Repositories;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.Replication.PgOutput.Messages;
 
 namespace Adboard.Infrastructure.DataAccess.Context.Users.Repositories;
 
@@ -78,6 +79,16 @@ public class UserRepository
 
     public async Task<User> UpdateAsync(UpdateUserDto updateDto)
     {
-        var user = 
+        var user = await repository.GetByIdAsync(updateDto.Id);
+
+        if (user == null)
+        {
+            throw new NotFoundException("User with the given id does not exist.");
+        }
+        
+        mapper.Map(updateDto, user);
+        
+        await repository.UpdateAsync(user);
+        return user;
     }
 }
