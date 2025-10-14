@@ -35,6 +35,7 @@ public class ExceptionHandlingMiddleware
         return context.Response.WriteAsync(JsonConvert.SerializeObject(errorModel.Item2));
     }
 
+    // Todo: добавить обработку ошибок о неверных jwt
     private static (int, ErrorDto) MapError(HttpContext context, Exception exception) =>
         exception switch
         {

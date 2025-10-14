@@ -1,3 +1,4 @@
+using Adboard.AppServices.Utilities.Jwt;
 using Adboard.Infrastructure.DataAccess;
 using Adboard.Infrastructure.ComponentRegister;
 using Adboard.Infrastructure.Middlewares;
@@ -32,6 +33,8 @@ builder.Services.AddOpenApiDocument(options =>
         };
     };
 });
+
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 
 var app = builder.Build();
 

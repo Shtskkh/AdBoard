@@ -4,12 +4,13 @@ using Adboard.Contracts.Users;
 using Adboard.Domain.Entities;
 using Adboard.Domain.Enums;
 using Adboard.Infrastructure.DataAccess.Repositories;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace Adboard.Infrastructure.DataAccess.Context.Users.Repositories;
 
 public class UserRepository
-    (IRepository<User, Guid, ApplicationDbContext> repository) : IUserRepository
+    (IRepository<User, Guid, ApplicationDbContext> repository, IMapper mapper) : IUserRepository
 {
     public async Task<User> GetByIdAsync(Guid id)
     {
@@ -20,6 +21,17 @@ public class UserRepository
             .FirstOrDefaultAsync();
         
         return user ?? throw new NotFoundException("User with the given id does not exist.");
+    }
+
+    public async Task<User> GetByEmailAsync(string email)
+    {
+        var user = await repository.GetAllAsync()
+            .Where(u => u.Email == email)
+            .Include(u => u.Role)
+            .Include(u => u.AccountStatus)
+            .FirstOrDefaultAsync();
+        
+        return user ?? throw new NotFoundException("User with the given email does not exist.");
     }
 
     private async Task<bool> IsEmailExisted(string email)
@@ -57,10 +69,15 @@ public class UserRepository
             Password = createDto.Password,
             RoleId = createDto.RoleId,
             AccountStatusId = (int)AccountStatusType.NeedsConfirm,
-            CreatedAt = DateTime.Now
+            CreatedAt = DateTime.Now.ToUniversalTime()
         };
 
         await repository.AddAsync(user);
         return user.Id;
+    }
+
+    public async Task<User> UpdateAsync(UpdateUserDto updateDto)
+    {
+        var user = 
     }
 }

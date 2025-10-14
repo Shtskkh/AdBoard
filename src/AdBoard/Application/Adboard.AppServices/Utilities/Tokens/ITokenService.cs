@@ -2,5 +2,6 @@ namespace Adboard.AppServices.Utilities.Tokens;
 
 public interface ITokenService
 {
-    Task<string> GenerateEmailConfirmationToken(string email);
+    string GenerateEmailConfirmationToken(string email);
+    Task<string> VerifyEmailConfirmationTokenAsync(string token);
 }

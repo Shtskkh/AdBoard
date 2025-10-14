@@ -4,5 +4,6 @@ namespace Adboard.AppServices.Facades.Register;
 
 public interface IRegisterService
 {
-    Task<string> RegisterUser(CreateUserDto createDto);
+    Task<string> RegisterUserAsync(CreateUserDto createDto);
+    Task VerifyUserAsync(string token);
 }

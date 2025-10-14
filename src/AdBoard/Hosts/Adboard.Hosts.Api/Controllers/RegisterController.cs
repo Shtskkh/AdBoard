@@ -11,9 +11,16 @@ namespace Adboard.Hosts.Api.Controllers;
 public class RegisterController(IRegisterService service) : ControllerBase
 {
     [HttpPost]
-    public async Task<string> RegisterAsync(CreateUserDto createDto)
+    public async Task<IActionResult> RegisterAsync(CreateUserDto createDto)
     {
-        var code = await service.RegisterUser(createDto);
-        return code;
+        var token = await service.RegisterUserAsync(createDto);
+        return Ok($"Your verification code: {token}.");
+    }
+
+    [HttpPatch]
+    public async Task<IActionResult> VerifyUserAsync(string token)
+    {
+        await service.VerifyUserAsync(token);
+        return Ok("Your account has been verified.");
     }
 }

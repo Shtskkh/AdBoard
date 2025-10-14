@@ -28,4 +28,9 @@ public class UserService(IUserRepository repository) : IUserService
     {
         return await repository.AddAsync(dto);
     }
+
+    public async Task ChangeAccountStatus(string email, int status)
+    {
+        throw new NotImplementedException();
+    }
 }
