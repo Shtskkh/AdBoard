@@ -17,7 +17,7 @@ public class RegisterController(IRegisterService service) : ControllerBase
         return Ok($"Your verification code: {token}.");
     }
 
-    [HttpPatch]
+    [HttpPatch("{token:minlength(36)}")]
     public async Task<IActionResult> VerifyUserAsync(string token)
     {
         await service.VerifyUserAsync(token);
