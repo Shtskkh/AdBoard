@@ -1,18 +1,27 @@
 using Adboard.AppServices.Contexts.Users.Repositories;
+using Adboard.AppServices.Contexts.Users.Specifications;
 using Adboard.AppServices.Exceptions;
 using Adboard.Contracts.Users;
 using Adboard.Domain.Entities;
 using Adboard.Domain.Enums;
 using Adboard.Infrastructure.DataAccess.Repositories;
+using Ardalis.Specification.EntityFrameworkCore;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Npgsql.Replication.PgOutput.Messages;
 
 namespace Adboard.Infrastructure.DataAccess.Context.Users.Repositories;
 
 public class UserRepository
     (IRepository<User, Guid, ApplicationDbContext> repository, IMapper mapper) : IUserRepository
 {
+    public async Task<IReadOnlyCollection<User>> GetByFilterAsync(UserFilterSpecification specification)
+    {
+        var users = await repository.GetAllAsync()
+            .WithSpecification(specification)
+            .ToListAsync();
+        return users.AsReadOnly();
+    }
+
     public async Task<User> GetByIdAsync(Guid id)
     {
         var user = await repository.GetAllAsync()
@@ -24,17 +33,6 @@ public class UserRepository
         return user ?? throw new NotFoundException("User with the given id does not exist.");
     }
 
-    public async Task<User> GetByEmailAsync(string email)
-    {
-        var user = await repository.GetAllAsync()
-            .Where(u => u.Email == email)
-            .Include(u => u.Role)
-            .Include(u => u.AccountStatus)
-            .FirstOrDefaultAsync();
-        
-        return user ?? throw new NotFoundException("User with the given email does not exist.");
-    }
-
     private async Task<bool> IsEmailExisted(string email)
     {
         return await repository.GetAllAsync().AnyAsync(e => e.Email == email);
@@ -44,7 +42,7 @@ public class UserRepository
     {
         return await repository.GetAllAsync().AnyAsync(e => e.PhoneNumber == phoneNumber);
     }
-
+    
     public async Task<Guid> AddAsync(CreateUserDto createDto)
     {
         if (await IsEmailExisted(createDto.Email))

@@ -1,3 +1,4 @@
+using Adboard.Contracts.Roles;
 using Adboard.Contracts.Users;
 using Adboard.Domain.Entities;
 using AutoMapper;
@@ -14,7 +15,9 @@ public class UserProfile : Profile
             .ForAllMembers(s =>
                 s.Condition((src, dest, srcMember) => srcMember != null));
 
-        CreateMap<User, UserDto>(MemberList.None);
+        CreateMap<User, UserDto>(MemberList.None)
+            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Title))
+            .ForMember(dest => dest.AccountStatus, opt => opt.MapFrom(src => src.AccountStatus.Title));
 
     }
 }

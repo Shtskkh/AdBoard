@@ -59,6 +59,7 @@ public static class ComponentRegister
     public static IServiceCollection AddFluentValidation(this IServiceCollection services)
     {
         services.AddValidatorsFromAssemblyContaining<CreateUserValidator>();
+        services.AddValidatorsFromAssemblyContaining<UserFilterValidator>();
         services.AddFluentValidationAutoValidation();
         
         return services;
