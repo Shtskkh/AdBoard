@@ -60,6 +60,7 @@ public static class ComponentRegister
     {
         services.AddValidatorsFromAssemblyContaining<CreateUserValidator>();
         services.AddValidatorsFromAssemblyContaining<UserFilterValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdateUserValidator>();
         services.AddFluentValidationAutoValidation();
         
         return services;

@@ -18,6 +18,5 @@ public class UserProfile : Profile
         CreateMap<User, UserDto>(MemberList.None)
             .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Title))
             .ForMember(dest => dest.AccountStatus, opt => opt.MapFrom(src => src.AccountStatus.Title));
-
     }
 }

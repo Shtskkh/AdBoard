@@ -77,7 +77,7 @@ public class UserRepository
 
     public async Task<User> UpdateAsync(UpdateUserDto updateDto)
     {
-        var user = await repository.GetByIdAsync(updateDto.Id);
+        var user = await GetByIdAsync(updateDto.Id);
 
         if (user == null)
         {

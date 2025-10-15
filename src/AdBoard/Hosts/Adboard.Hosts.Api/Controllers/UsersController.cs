@@ -27,4 +27,11 @@ public class UsersController(IUserService service) : ControllerBase
         
         return Ok(users);
     }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateAsync(UpdateUserDto updateDto)
+    {
+        var updatedUser = await service.UpdateAsync(updateDto);
+        return Ok(updatedUser);
+    }
 }
