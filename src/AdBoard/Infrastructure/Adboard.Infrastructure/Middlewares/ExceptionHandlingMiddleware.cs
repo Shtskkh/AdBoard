@@ -1,6 +1,8 @@
 using Adboard.AppServices.Exceptions;
 using Adboard.Contracts.Errors;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 namespace Adboard.Infrastructure.Middlewares;
@@ -34,8 +36,8 @@ public class ExceptionHandlingMiddleware
 
         return context.Response.WriteAsync(JsonConvert.SerializeObject(errorModel.Item2));
     }
-
-    // Todo: добавить обработку ошибок о неверных jwt
+    
+    // Todo: добавить обработку ошибок о валидациях
     private static (int, ErrorDto) MapError(HttpContext context, Exception exception) =>
         exception switch
         {
@@ -57,6 +59,13 @@ public class ExceptionHandlingMiddleware
             {
                 StatusCode = StatusCodes.Status400BadRequest,
                 Message = $"Argument error: {e.Message}",
+                TraceId = context.TraceIdentifier
+            }),
+            
+            SecurityTokenValidationException e => (StatusCodes.Status400BadRequest, new ErrorDto
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Message = $"Token validation error: {e.Message}",
                 TraceId = context.TraceIdentifier
             }),
             
