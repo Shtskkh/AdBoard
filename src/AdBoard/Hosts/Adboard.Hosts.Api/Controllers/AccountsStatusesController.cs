@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices.JavaScript;
 using Adboard.AppServices.Contexts.AccountsStatuses.Services;
 using Adboard.Contracts.AccountsStatuses;
@@ -44,7 +45,7 @@ public class AccountsStatusesController(IAccountStatusService service) : Control
     [HttpGet("{id:int}")]
     [ProducesResponseType(typeof(AccountStatusDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetByIdAsync(int id)
+    public async Task<IActionResult> GetByIdAsync([FromRoute][Range(1, int.MaxValue, ErrorMessage = "ID must be greater than 0")] int id)
     {
         var status = await service.GetByIdAsync(id);
         return Ok(status);

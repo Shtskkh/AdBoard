@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Adboard.AppServices.Contexts.Categories.Services;
 using Adboard.Contracts.Categories;
 using Adboard.Contracts.Errors;
@@ -44,7 +45,7 @@ public class CategoriesController(ICategoryService service) : ControllerBase
     [HttpGet("{id:int}")]
     [ProducesResponseType(typeof(SubcategoryDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetByIdAsync(int id)
+    public async Task<IActionResult> GetByIdAsync([FromRoute][Range(1, int.MaxValue, ErrorMessage = "ID must be greater than 0")] int id)
     {
         var category = await service.GetByIdAsync(id);
         return Ok(category);
