@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Adboard.Infrastructure.DataAccess;
 
+/// <summary>
+/// Контекст базы данных
+/// </summary>
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions options) : base(options)

@@ -3,7 +3,6 @@ using Adboard.AppServices.Contexts.Users.Specifications;
 using Adboard.AppServices.Exceptions;
 using Adboard.Contracts.Users;
 using Adboard.Domain.Entities;
-using Adboard.Domain.Enums;
 using Adboard.Infrastructure.DataAccess.Repositories;
 using Ardalis.Specification.EntityFrameworkCore;
 using AutoMapper;
@@ -11,9 +10,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Adboard.Infrastructure.DataAccess.Context.Users.Repositories;
 
+/// <summary>
+/// Репозиторий пользователей
+/// </summary>
+/// <param name="repository">Базовый репозиторий для пользователей</param>
+/// <param name="mapper">Автомаппер</param>
 public class UserRepository
     (IRepository<User, Guid, ApplicationDbContext> repository, IMapper mapper) : IUserRepository
 {
+    /// <summary>
+    /// Получить всех пользователей, удовлетворяющих фильтру
+    /// </summary>
+    /// <param name="specification">Спецификация для фильтра</param>
+    /// <returns>Массив сущностей пользователей, удовлетворяющих фильтру</returns>
     public async Task<IReadOnlyCollection<User>> GetByFilterAsync(UserFilterSpecification specification)
     {
         var users = await repository.GetAllAsync()
@@ -22,6 +31,12 @@ public class UserRepository
         return users.AsReadOnly();
     }
 
+    /// <summary>
+    /// Получить пользователя по id
+    /// </summary>
+    /// <param name="id">Id пользователя</param>
+    /// <returns>Сущность пользователя</returns>
+    /// <exception cref="NotFoundException">Пользователь не найден</exception>
     public async Task<User> GetByIdAsync(Guid id)
     {
         var user = await repository.GetAllAsync()
@@ -43,6 +58,14 @@ public class UserRepository
         return await repository.GetAllAsync().AnyAsync(e => e.PhoneNumber == phoneNumber);
     }
     
+    /// <summary>
+    /// Создать пользователя
+    /// </summary>
+    /// <param name="createDto">Модель создания пользователя</param>
+    /// <returns>Id созданного пользователя</returns>
+    /// <exception cref="AlreadyExistsException">
+    ///     Пользователь с такой почтой или таким номером телефона уже существует в БД
+    /// </exception>
     public async Task<Guid> AddAsync(CreateUserDto createDto)
     {
         if (await IsEmailExisted(createDto.Email))
@@ -57,24 +80,19 @@ public class UserRepository
                 throw new AlreadyExistsException("User with given phone number already exists.");
             }
         }
-
-        var user = new User
-        {
-            FirstName = createDto.FirstName,
-            MiddleName = createDto.MiddleName ?? null,
-            LastName = createDto.LastName,
-            PhoneNumber = createDto.PhoneNumber ?? null,
-            Email = createDto.Email,
-            Password = createDto.Password,
-            RoleId = createDto.RoleId,
-            AccountStatusId = (int)AccountStatusType.NeedsConfirm,
-            CreatedAt = DateTime.Now.ToUniversalTime()
-        };
+        
+        var user = mapper.Map<CreateUserDto, User>(createDto);
 
         await repository.AddAsync(user);
         return user.Id;
     }
 
+    /// <summary>
+    /// Обновить пользователя
+    /// </summary>
+    /// <param name="updateDto">Модель обновления пользователя</param>
+    /// <returns>Обновлённая сущность пользователя</returns>
+    /// <exception cref="NotFoundException">Пользователь для обновления не найден</exception>
     public async Task<User> UpdateAsync(UpdateUserDto updateDto)
     {
         var user = await GetByIdAsync(updateDto.Id);

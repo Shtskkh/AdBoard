@@ -7,9 +7,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Adboard.Infrastructure.DataAccess.Context.Categories.Repositories;
 
+/// <summary>
+/// Репозиторий категорий
+/// </summary>
+/// <param name="repository"></param>
 public class CategoryRepository
     (IRepository<Category, int, ApplicationDbContext> repository) : ICategoryRepository
 {
+    /// <summary>
+    /// Получить все категории с подкатегориями
+    /// </summary>
+    /// <returns>Массив сущностей категорий с подкатегориями</returns>
     public async Task<IReadOnlyCollection<Category>> GetAllAsync()
     {
         var categories = await repository.GetAllAsync()
@@ -19,6 +27,12 @@ public class CategoryRepository
         return categories.AsReadOnly();
     }
 
+    /// <summary>
+    /// Получить категорию с подкатегориями по id
+    /// </summary>
+    /// <param name="id">Id категории</param>
+    /// <returns>Сущность категории с подкатегориями</returns>
+    /// <exception cref="NotFoundException">Категория не найдена</exception>
     public async Task<Category> GetByIdAsync(int id)
     {
         var category = await repository.GetAllAsync()
@@ -29,11 +43,17 @@ public class CategoryRepository
         return category ?? throw new NotFoundException($"Category with id: {id} not found");
     }
 
+    /// <summary>
+    /// Получить категории по названию с подкатегориями
+    /// </summary>
+    /// <param name="title"></param>
+    /// <returns>Массив сущностей категорий с подкатегориями</returns>
+    /// <exception cref="NotFoundException">Категории не найдены</exception>
     public async Task<IReadOnlyCollection<Category>> GetByTitleAsync(string title)
     {
         var category = await repository.GetAllAsync()
             .Where(c => EF.Functions.ILike(c.Title, $"%{title}%"))
-            .Include(c => c.Subcategories)
+            .Include(c => c.Subcategories.OrderBy(a => a.Id))
             .OrderBy(c => c.Id)
             .ToListAsync();
         
@@ -45,6 +65,12 @@ public class CategoryRepository
         return await repository.GetAllAsync().AnyAsync(c => c.Title == title);
     }
 
+    /// <summary>
+    /// Добавить категорию
+    /// </summary>
+    /// <param name="createDto">Модель создания категории</param>
+    /// <returns>Id созданной категории</returns>
+    /// <exception cref="AlreadyExistsException">Категория с  таким названием уже существует</exception>
     public async Task<int> AddAsync(CreateCategoryDto createDto)
     {
         
@@ -64,6 +90,12 @@ public class CategoryRepository
         return newCategory.Id;
     }
 
+    /// <summary>
+    /// Обновить категорию
+    /// </summary>
+    /// <param name="updateDto">Модель обновления категории</param>
+    /// <returns>Сущность обновлённой категории</returns>
+    /// <exception cref="AlreadyExistsException">Категория с таким названием уже существует</exception>
     public async Task<Category> UpdateAsync(UpdateCategoryDto updateDto)
     {
         
@@ -82,6 +114,10 @@ public class CategoryRepository
         return category;
     }
 
+    /// <summary>
+    /// Удалить категорию
+    /// </summary>
+    /// <param name="id">Id категории</param>
     public async Task DeleteAsync(int id)
     { 
         await repository.DeleteAsync(id);

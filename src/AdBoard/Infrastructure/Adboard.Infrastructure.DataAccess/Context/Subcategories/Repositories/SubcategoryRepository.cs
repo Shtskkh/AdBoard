@@ -7,9 +7,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Adboard.Infrastructure.DataAccess.Context.Subcategories.Repositories;
 
+/// <summary>
+/// Репозиторий подкатегорий
+/// </summary>
+/// <param name="repository">Базовый репозиторий подкатегорий</param>
 public class SubcategoryRepository
     (IRepository<Subcategory, int, ApplicationDbContext> repository) : ISubcategoryRepository
 {
+    /// <summary>
+    /// Получить подкатегорию по Id
+    /// </summary>
+    /// <param name="id">Id подкатегории</param>
+    /// <returns>Сущность подкатегории</returns>
+    /// <exception cref="NotFoundException">Подкатегория не найдена</exception>
     public async Task<Subcategory> GetByIdAsync(int id)
     {
         var subcategory = await repository.GetAllAsync()
@@ -20,6 +30,11 @@ public class SubcategoryRepository
         return subcategory ?? throw new NotFoundException($"Subcategory with id: {id} not found.");
     }
 
+    /// <summary>
+    /// Получить подкатегории по названию
+    /// </summary>
+    /// <param name="title">Название подкатегории</param>
+    /// <returns>Массив подкатегорий, подходящих на название</returns>
     public async Task<IReadOnlyCollection<Subcategory>> GetByTitleAsync(string title)
     {
         var subcategories = await repository.GetAllAsync()
@@ -43,6 +58,13 @@ public class SubcategoryRepository
             .AnyAsync(s => s.CategoryId == categoryId && s.Title == title);
     }
 
+    /// <summary>
+    /// Добавить подкатегорию
+    /// </summary>
+    /// <param name="createDto">Модель создания подкатегории</param>
+    /// <returns>Id созданной подкатегории</returns>
+    /// <exception cref="ArgumentException">Категория, в которую добавляется подкатегория, не существует</exception>
+    /// <exception cref="AlreadyExistsException">Подкатегория уже существует в категории</exception>
     public async Task<int> AddAsync(CreateSubcategoryDto createDto)
     {
         var isExistedCategory = await IsExistedCategory(createDto.CategoryId);
@@ -70,6 +92,12 @@ public class SubcategoryRepository
         return subcategory.Id;
     }
 
+    /// <summary>
+    /// Обновить подкатегорию
+    /// </summary>
+    /// <param name="updateDto">Модель обновления подкатегории</param>
+    /// <returns>Обновлённая сущность подкатегории</returns>
+    /// <exception cref="AlreadyExistsException">Подкатегория с таким названием уже существует в категории</exception>
     public async Task<Subcategory> UpdateAsync(UpdateSubcategoryDto updateDto)
     { 
         var existedSubcategory = await IsExistedTitleInCategory(updateDto.Title, updateDto.CategoryId);
@@ -88,6 +116,10 @@ public class SubcategoryRepository
         return subcategory;
     }
 
+    /// <summary>
+    /// Удалить подкатегорию
+    /// </summary>
+    /// <param name="id">Id подкатегории</param>
     public async Task DeleteAsync(int id)
     {
         await repository.DeleteAsync(id);
