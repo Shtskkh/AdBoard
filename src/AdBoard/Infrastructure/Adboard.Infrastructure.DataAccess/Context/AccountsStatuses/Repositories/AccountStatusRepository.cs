@@ -6,9 +6,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Adboard.Infrastructure.DataAccess.Context.AccountsStatuses.Repositories;
 
+/// <summary>
+/// Репозиторий статусов аккаунтов
+/// </summary>
+/// <param name="repository">Базовый репозиторий статусов аккаунтов</param>
 public class AccountStatusRepository
     (IRepository<AccountStatus, int, ApplicationDbContext> repository) : IAccountStatusRepository
 {
+    /// <summary>
+    /// Получить все статусы аккаунтов
+    /// </summary>
+    /// <returns>Массив сущностей статусов аккаунтов</returns>
     public async Task<IReadOnlyCollection<AccountStatus>> GetAllAsync()
     {
         var accountStatuses = await repository.GetAllAsync()
@@ -17,13 +25,24 @@ public class AccountStatusRepository
         return accountStatuses.AsReadOnly();
     }
 
+    /// <summary>
+    /// Получить статус аккаунта по id
+    /// </summary>
+    /// <param name="id">Id статуса аккаунта</param>
+    /// <returns>Сущность статуса аккаунта</returns>
+    /// <exception cref="NotFoundException">Статус аккаунта не найден</exception>
     public async Task<AccountStatus> GetByIdAsync(int id)
     {
         return await repository.GetByIdAsync(id) ?? 
                throw new NotFoundException($"Account status with id: {id} not found");
     }
-
-    // Todo: переделать на массивный результат
+    
+    /// <summary>
+    /// Получить статус аккаунта по названию
+    /// </summary>
+    /// <param name="title">Название статуса аккаунта</param>
+    /// <returns>Сущность статуса аккаунта</returns>
+    /// <exception cref="NotFoundException">Статус аккаунта не найден</exception>
     public async Task<AccountStatus> GetByTitleAsync(string title)
     {
         var accountStatus = await repository.GetAllAsync()

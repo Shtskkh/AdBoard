@@ -11,6 +11,7 @@ using Adboard.AppServices.Contexts.Users.Services;
 using Adboard.AppServices.Facades.Register;
 using Adboard.AppServices.Utilities.Passwords;
 using Adboard.AppServices.Utilities.Tokens;
+using Adboard.AppServices.Validators.Categories;
 using Adboard.AppServices.Validators.Users;
 using Adboard.Infrastructure.ComponentRegister.MapProfiles.Users;
 using Adboard.Infrastructure.DataAccess.Context.AccountsStatuses.Repositories;
@@ -49,6 +50,7 @@ public static class ComponentRegister
         var configuration = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<UserProfile>();
+            cfg.AddProfile<CategoryProfile>();
         });
         
         configuration.AssertConfigurationIsValid();
@@ -61,6 +63,8 @@ public static class ComponentRegister
         services.AddValidatorsFromAssemblyContaining<CreateUserValidator>();
         services.AddValidatorsFromAssemblyContaining<UserFilterValidator>();
         services.AddValidatorsFromAssemblyContaining<UpdateUserValidator>();
+        services.AddValidatorsFromAssemblyContaining<CreateCategoryValidator>();
+        services.AddValidatorsFromAssemblyContaining<UpdateCategoryValidator>();
         services.AddFluentValidationAutoValidation();
         
         return services;
