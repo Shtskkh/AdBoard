@@ -1,4 +1,5 @@
 using Adboard.AppServices.Contexts.Users.Services;
+using Adboard.AppServices.Facades.Users;
 using Adboard.Contracts.AccountsStatuses;
 using Adboard.Contracts.Errors;
 using Adboard.Contracts.Users;
@@ -9,12 +10,45 @@ namespace Adboard.Hosts.Api.Controllers;
 /// <summary>
 /// Контроллер пользователей
 /// </summary>
-/// <param name="service">Сервис пользователей</param>
+/// <param name="facade">Сервис пользователей</param>
 [ApiController]
 [Route("api/v1/[controller]")]
 [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status500InternalServerError)]
-public class UsersController(IUserService service) : ControllerBase
+public class UsersController(IUserFacade facade) : ControllerBase
 {
+    
+    /// <summary>
+    /// Зарегистрировать пользователя
+    /// </summary>
+    /// <param name="createDto">Модель создания пользователя</param>
+    /// <returns>Строка с кодом подтверждения</returns>
+    /// <response code="400">Неверные параметры</response>
+    /// <response code="409">Пользователь с таким email или номером телефона уже существует</response>
+    [HttpPost]
+    [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status409Conflict)]
+    public async Task<IActionResult> RegisterAsync(CreateUserDto createDto)
+    {
+        var token = await facade.RegisterUserAsync(createDto);
+        return Ok(token);
+    }
+    
+    /// <summary>
+    /// Верифицировать пользователя
+    /// </summary>
+    /// <param name="token">Токен подтверждения</param>
+    /// <returns>Сообщение об успешной верификации</returns>
+    /// <response code="404">Пользователь с таким Id не найден</response>
+    [HttpPatch("{token:minlength(36)}")]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> VerifyUserAsync(string token)
+    {
+        await facade.VerifyUserAsync(token);
+        return Ok("Your account has been verified.");
+    }
+    
     /// <summary>
     /// Получить пользователя по id
     /// </summary>
@@ -26,7 +60,7 @@ public class UsersController(IUserService service) : ControllerBase
     [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByIdAsync(Guid id)
     {
-        var user = await service.GetByIdAsync(id);
+        var user = await facade.GetByIdAsync(id);
         return Ok(user);
     }
 
@@ -41,7 +75,7 @@ public class UsersController(IUserService service) : ControllerBase
     [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByFilterAsync([FromQuery] UserFilterDto filter)
     {
-        var users = await service.GetByFilterAsync(filter);
+        var users = await facade.GetByFilterAsync(filter);
         
         if (users.Count == 0)
         {
@@ -62,7 +96,7 @@ public class UsersController(IUserService service) : ControllerBase
     [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> UpdateAsync(UpdateUserDto updateDto)
     {
-        var updatedUser = await service.UpdateAsync(updateDto);
+        var updatedUser = await facade.UpdateAsync(updateDto);
         return Ok(updatedUser);
     }
 }

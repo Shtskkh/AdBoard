@@ -8,7 +8,7 @@ using Adboard.AppServices.Contexts.Subcategories.Repositories;
 using Adboard.AppServices.Contexts.Subcategories.Services;
 using Adboard.AppServices.Contexts.Users.Repositories;
 using Adboard.AppServices.Contexts.Users.Services;
-using Adboard.AppServices.Facades.Register;
+using Adboard.AppServices.Facades.Users;
 using Adboard.AppServices.Utilities.Passwords;
 using Adboard.AppServices.Utilities.Tokens;
 using Adboard.AppServices.Validators.Categories;
@@ -38,7 +38,7 @@ public static class ComponentRegister
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
-        services.AddScoped<IRegisterService, RegisterService>();
+        services.AddScoped<IUserFacade, UserFacade>();
 
         services.AddSingleton<IMapper>(new Mapper(GetMapperConfiguration()));
         
