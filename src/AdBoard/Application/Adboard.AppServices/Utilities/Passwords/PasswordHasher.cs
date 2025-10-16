@@ -15,7 +15,7 @@ public class PasswordHasher : IPasswordHasher
         var salt = RandomNumberGenerator.GetBytes(SaltSize);
         var hash = Rfc2898DeriveBytes.Pbkdf2(password, salt, Iterations, Algorithm, HashSize);
 
-        return $"{Convert.ToHexString(hash)}-{Convert.ToHexString(hash)}";
+        return $"{Convert.ToHexString(hash)}-{Convert.ToHexString(salt)}";
     }
 
     public bool VerifyHashedPassword(string password, string hashedPassword)
