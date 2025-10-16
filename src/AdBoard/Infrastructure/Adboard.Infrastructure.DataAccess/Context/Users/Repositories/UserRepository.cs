@@ -107,4 +107,23 @@ public class UserRepository
         await repository.UpdateAsync(user);
         return user;
     }
+
+    /// <summary>
+    /// Обновить пароль пользователя
+    /// </summary>
+    /// <param name="id">Id пользователя</param>
+    /// <param name="newPassword">Новый пароль</param>
+    /// <exception cref="NotFoundException">Пользователь для обновления не найден</exception>
+    public async Task UpdatePasswordAsync(Guid id, string newPassword)
+    {
+        var user = await GetByIdAsync(id);
+        
+        if (user == null)
+        {
+            throw new NotFoundException("User with the given id does not exist.");
+        }
+        
+        user.Password = newPassword;
+        await repository.UpdateAsync(user);
+    }
 }

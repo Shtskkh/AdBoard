@@ -10,4 +10,5 @@ public interface IUserRepository
     Task<User> GetByIdAsync(Guid id);
     Task<Guid> AddAsync(CreateUserDto createDto);
     Task<User> UpdateAsync(UpdateUserDto updateDto);
+    Task UpdatePasswordAsync(Guid id, string newPassword);
 }

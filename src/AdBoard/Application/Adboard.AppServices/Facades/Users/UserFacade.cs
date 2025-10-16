@@ -6,11 +6,11 @@ using Adboard.Domain.Enums;
 
 namespace Adboard.AppServices.Facades.Users;
 
-public class UserFacade(IUserService userService, IPasswordHasher hashService, ITokenService tokenService) : IUserFacade
+public class UserFacade(IUserService userService, IPasswordHasher passwordHasher, ITokenService tokenService) : IUserFacade
 {
     public async Task<string> RegisterUserAsync(CreateUserDto createDto)
     {
-        createDto.Password = hashService.HashPassword(createDto.Password);
+        createDto.Password = passwordHasher.HashPassword(createDto.Password);
         
         var userGuid = await userService.AddAsync(createDto);
         
@@ -49,9 +49,18 @@ public class UserFacade(IUserService userService, IPasswordHasher hashService, I
         return await userService.UpdateAsync(updateDto);
     }
 
-    public async Task UpdatePasswordAsync(UpdateUserDto dto)
+    public async Task UpdatePasswordAsync(UpdatePasswordDto updatePasswordDto)
     {
-        throw new NotImplementedException();
+        var authInfo = await userService.GetAuthInfoAsync(updatePasswordDto.Id);
+
+        if (!passwordHasher.VerifyHashedPassword(updatePasswordDto.OldPassword, authInfo.Password))
+        {
+            throw new ArgumentException("Invalid old password.");
+        }
+        
+        var newPassword = passwordHasher.HashPassword(updatePasswordDto.NewPassword);
+        
+        await userService.UpdatePasswordAsync(updatePasswordDto.Id, newPassword);
     }
 
     public async Task UpdateEmailAsync(Guid id, string email)

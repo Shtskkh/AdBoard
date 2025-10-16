@@ -10,6 +10,6 @@ public interface IUserFacade
     Task<IReadOnlyCollection<UserDto>> GetByFilterAsync(UserFilterDto filter);
     Task<Guid> AddAsync(CreateUserDto createDto);
     Task<UserDto> UpdateAsync(UpdateUserDto updateDto);
-    Task UpdatePasswordAsync(UpdateUserDto dto);
+    Task UpdatePasswordAsync(UpdatePasswordDto updatePasswordDto);
     Task UpdateEmailAsync(Guid id, string email);
 }

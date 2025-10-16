@@ -40,7 +40,7 @@ public class UsersController(IUserFacade facade) : ControllerBase
     /// <param name="token">Токен подтверждения</param>
     /// <returns>Сообщение об успешной верификации</returns>
     /// <response code="404">Пользователь с таким Id не найден</response>
-    [HttpPatch("{token:minlength(36)}")]
+    [HttpPatch("Verify")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorDto), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> VerifyUserAsync(string token)
@@ -98,5 +98,12 @@ public class UsersController(IUserFacade facade) : ControllerBase
     {
         var updatedUser = await facade.UpdateAsync(updateDto);
         return Ok(updatedUser);
+    }
+
+    [HttpPatch("Password")]
+    public async Task<IActionResult> UpdatePasswordAsync(UpdatePasswordDto updatePasswordDto)
+    {
+        await facade.UpdatePasswordAsync(updatePasswordDto);
+        return Ok("Your password has been updated.");
     }
 }
