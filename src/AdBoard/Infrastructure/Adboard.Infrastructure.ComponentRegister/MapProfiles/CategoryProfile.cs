@@ -3,7 +3,7 @@ using Adboard.Contracts.Subcategories;
 using Adboard.Domain.Entities;
 using AutoMapper;
 
-namespace Adboard.Infrastructure.ComponentRegister.MapProfiles.Users;
+namespace Adboard.Infrastructure.ComponentRegister.MapProfiles;
 
 public class CategoryProfile : Profile
 {

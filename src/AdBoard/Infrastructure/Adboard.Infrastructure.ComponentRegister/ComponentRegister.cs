@@ -13,7 +13,7 @@ using Adboard.AppServices.Utilities.Passwords;
 using Adboard.AppServices.Utilities.Tokens;
 using Adboard.AppServices.Validators.Categories;
 using Adboard.AppServices.Validators.Users;
-using Adboard.Infrastructure.ComponentRegister.MapProfiles.Users;
+using Adboard.Infrastructure.ComponentRegister.MapProfiles;
 using Adboard.Infrastructure.DataAccess.Context.AccountsStatuses.Repositories;
 using Adboard.Infrastructure.DataAccess.Context.Categories.Repositories;
 using Adboard.Infrastructure.DataAccess.Context.Roles.Repositories;

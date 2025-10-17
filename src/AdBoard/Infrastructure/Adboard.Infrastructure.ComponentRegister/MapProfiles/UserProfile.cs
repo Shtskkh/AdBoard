@@ -1,10 +1,9 @@
-using Adboard.Contracts.Roles;
 using Adboard.Contracts.Users;
 using Adboard.Domain.Entities;
 using Adboard.Domain.Enums;
 using AutoMapper;
 
-namespace Adboard.Infrastructure.ComponentRegister.MapProfiles.Users;
+namespace Adboard.Infrastructure.ComponentRegister.MapProfiles;
 
 public class UserProfile : Profile
 {
