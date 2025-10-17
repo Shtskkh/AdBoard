@@ -6,8 +6,19 @@ using Adboard.Domain.Enums;
 
 namespace Adboard.AppServices.Facades.Users;
 
+/// <summary>
+/// Фасад для работы с пользователями
+/// </summary>
+/// <param name="userService">Сервис пользователей</param>
+/// <param name="passwordHasher">Сервис хеширования паролей</param>
+/// <param name="tokenService">Сервис токенов</param>
 public class UserFacade(IUserService userService, IPasswordHasher passwordHasher, ITokenService tokenService) : IUserFacade
 {
+    /// <summary>
+    /// Зарегистрировать пользователя
+    /// </summary>
+    /// <param name="createDto">Модель создания пользователя</param>
+    /// <returns>Токен подтверждения почты</returns>
     public async Task<string> RegisterUserAsync(CreateUserDto createDto)
     {
         createDto.Password = passwordHasher.HashPassword(createDto.Password);
@@ -17,6 +28,10 @@ public class UserFacade(IUserService userService, IPasswordHasher passwordHasher
         return tokenService.GenerateEmailConfirmationToken(userGuid);
     }
 
+    /// <summary>
+    /// Верифицировать пользователя
+    /// </summary>
+    /// <param name="token">Токен подтверждения почты</param>
     public async Task VerifyUserAsync(string token)
     {
         var guid = await tokenService.VerifyEmailConfirmationTokenAsync(token);
@@ -28,22 +43,17 @@ public class UserFacade(IUserService userService, IPasswordHasher passwordHasher
         
         await userService.UpdateAsync(updateUser);
     }
-
+    
     public async Task<UserDto> GetByIdAsync(Guid id)
     {
         return await userService.GetByIdAsync(id);
     }
-
+    
     public async Task<IReadOnlyCollection<UserDto>> GetByFilterAsync(UserFilterDto filter)
     {
         return await userService.GetByFilterAsync(filter);
     }
-
-    public async Task<Guid> AddAsync(CreateUserDto createDto)
-    {
-        return await userService.AddAsync(createDto);
-    }
-
+    
     public async Task<UserDto> UpdateAsync(UpdateUserDto updateDto)
     {
         return await userService.UpdateAsync(updateDto);
@@ -61,10 +71,5 @@ public class UserFacade(IUserService userService, IPasswordHasher passwordHasher
         var newPassword = passwordHasher.HashPassword(updatePasswordDto.NewPassword);
         
         await userService.UpdatePasswordAsync(updatePasswordDto.Id, newPassword);
-    }
-
-    public async Task UpdateEmailAsync(Guid id, string email)
-    {
-        throw new NotImplementedException();
     }
 }

@@ -18,15 +18,19 @@ public class CreateUserValidator : AbstractValidator<CreateUserDto>
             .WithMessage("Last name is required.");
 
         RuleFor(x => x.Email)
-            .EmailAddress();
+            .EmailAddress()
+            .WithMessage("Email is invalid.");
         
         RuleFor(x => x.Password)
             .NotNull()
             .NotEmpty()
+            .WithMessage("Password is required.")
             .MinimumLength(6)
-            .WithMessage("Password is required.");
+            .WithMessage("Password must have at least 6 characters.");
         
         RuleFor(x => x.RoleId)
+            .NotNull()
+            .NotEmpty()
             .GreaterThan(0)
             .WithMessage("RoleId must be greater than zero.");
     }
