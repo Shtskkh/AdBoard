@@ -25,7 +25,7 @@ public class Advert : IEntity<Guid>
     /// <summary>
     /// Guid фото, выступающего в качестве превью объявления
     /// </summary>
-    public Guid PreviewPhoto { get; set; }
+    // public Guid PreviewPhoto { get; set; }
     
     /// <summary>
     /// Цена товара

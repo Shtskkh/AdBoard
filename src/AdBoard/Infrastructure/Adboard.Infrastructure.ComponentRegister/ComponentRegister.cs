@@ -1,5 +1,7 @@
 using Adboard.AppServices.Contexts.AccountsStatuses.Repositories;
 using Adboard.AppServices.Contexts.AccountsStatuses.Services;
+using Adboard.AppServices.Contexts.Adverts.Repositories;
+using Adboard.AppServices.Contexts.Adverts.Services;
 using Adboard.AppServices.Contexts.Categories.Repositories;
 using Adboard.AppServices.Contexts.Categories.Services;
 using Adboard.AppServices.Contexts.Roles.Repositories;
@@ -11,10 +13,12 @@ using Adboard.AppServices.Contexts.Users.Services;
 using Adboard.AppServices.Facades.Users;
 using Adboard.AppServices.Utilities.Passwords;
 using Adboard.AppServices.Utilities.Tokens;
+using Adboard.AppServices.Validators.Adverts;
 using Adboard.AppServices.Validators.Categories;
 using Adboard.AppServices.Validators.Users;
 using Adboard.Infrastructure.ComponentRegister.MapProfiles;
 using Adboard.Infrastructure.DataAccess.Context.AccountsStatuses.Repositories;
+using Adboard.Infrastructure.DataAccess.Context.Adverts.Repositories;
 using Adboard.Infrastructure.DataAccess.Context.Categories.Repositories;
 using Adboard.Infrastructure.DataAccess.Context.Roles.Repositories;
 using Adboard.Infrastructure.DataAccess.Context.Subcategories.Repositories;
@@ -39,6 +43,7 @@ public static class ComponentRegister
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IUserFacade, UserFacade>();
+        services.AddScoped<IAdvertService, AdvertService>();
 
         services.AddSingleton<IMapper>(new Mapper(GetMapperConfiguration()));
         
@@ -51,6 +56,7 @@ public static class ComponentRegister
         {
             cfg.AddProfile<UserProfile>();
             cfg.AddProfile<CategoryProfile>();
+            cfg.AddProfile<AdvertProfile>();
         });
         
         configuration.AssertConfigurationIsValid();
@@ -65,6 +71,7 @@ public static class ComponentRegister
         services.AddValidatorsFromAssemblyContaining<UpdateUserValidator>();
         services.AddValidatorsFromAssemblyContaining<CreateCategoryValidator>();
         services.AddValidatorsFromAssemblyContaining<UpdateCategoryValidator>();
+        services.AddValidatorsFromAssemblyContaining<CreateAdvertValidator>();
         services.AddFluentValidationAutoValidation();
         
         return services;
@@ -78,6 +85,7 @@ public static class ComponentRegister
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IAdvertRepository, AdvertRepository>();
         
         return services;
     }

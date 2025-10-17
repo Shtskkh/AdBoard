@@ -21,8 +21,8 @@ public class AdvertConfiguration : IEntityTypeConfiguration<Advert>
             .HasMaxLength(500)
             .IsRequired();
 
-        builder.Property(x => x.PreviewPhoto)
-            .IsRequired();
+        // builder.Property(x => x.PreviewPhoto)
+        //     .IsRequired();
         
         builder.Property(x => x.Price)
             .IsRequired();
