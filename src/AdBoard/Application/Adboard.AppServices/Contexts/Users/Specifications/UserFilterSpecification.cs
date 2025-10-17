@@ -10,6 +10,9 @@ public class UserFilterSpecification : Specification<User>
     {
         Query.OrderBy(x => x.Id);
         
+        Query.Include(c => c.Role);
+        Query.Include(c => c.AccountStatus);
+        
         if (!string.IsNullOrEmpty(filter.FirstName))
         {
             Query.Search(c => c.FirstName, "%" + filter.FirstName + "%");
@@ -44,9 +47,6 @@ public class UserFilterSpecification : Specification<User>
         {
             Query.Where(u => u.AccountStatus.Id == filter.AccountStatus);
         }
-
-        Query.Include(c => c.Role);
-        Query.Include(c => c.AccountStatus);
         
         Query.Skip(filter.Size * (filter.Page - 1));
         Query.Take(filter.Size);
