@@ -12,6 +12,11 @@ public class AdvertPhoto : IEntity<Guid>
     /// </summary>
     public Guid Id { get; set; }
     
+    /// <summary>
+    /// Фото в байтовом представлении
+    /// </summary>
+    public byte[] Content { get; set; }
+    
     // FKs
     /// <summary>
     /// ID объявления, к которому относится фото
