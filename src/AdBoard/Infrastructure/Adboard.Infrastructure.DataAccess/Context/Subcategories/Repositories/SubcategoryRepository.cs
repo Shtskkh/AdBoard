@@ -45,12 +45,6 @@ public class SubcategoryRepository
         
         return subcategories.AsReadOnly();
     }
-
-    private async Task<bool> IsExistedCategory(int id)
-    {
-        return await repository.GetAllAsync()
-            .Select(s => s.Category).AnyAsync(c => c.Id == id);
-    }
     
     private async Task<bool> IsExistedTitleInCategory(string title, int categoryId)
     {
@@ -63,17 +57,9 @@ public class SubcategoryRepository
     /// </summary>
     /// <param name="createDto">Модель создания подкатегории</param>
     /// <returns>Id созданной подкатегории</returns>
-    /// <exception cref="ArgumentException">Категория, в которую добавляется подкатегория, не существует</exception>
     /// <exception cref="AlreadyExistsException">Подкатегория уже существует в категории</exception>
     public async Task<int> AddAsync(CreateSubcategoryDto createDto)
     {
-        var isExistedCategory = await IsExistedCategory(createDto.CategoryId);
-
-        if (!isExistedCategory)
-        {
-            throw new ArgumentException($"Category with id: {createDto.CategoryId} not found.");
-        }
-        
         var existedSubcategory = await IsExistedTitleInCategory(createDto.Title, createDto.CategoryId);
 
         if (existedSubcategory)

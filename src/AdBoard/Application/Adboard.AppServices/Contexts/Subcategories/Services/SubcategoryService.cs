@@ -6,11 +6,11 @@ using Adboard.Contracts.Subcategories;
 namespace Adboard.AppServices.Contexts.Subcategories.Services;
 
 public class SubcategoryService
-    (ISubcategoryRepository repository) : ISubcategoryService
+    (ISubcategoryRepository subcategoryRepository, ICategoryRepository categoryRepository) : ISubcategoryService
 {
     public async Task<SubcategoryDto> GetByIdAsync(int id)
     {
-        var subcategory = await repository.GetByIdAsync(id);
+        var subcategory = await subcategoryRepository.GetByIdAsync(id);
         
         var dto = new SubcategoryDto
         {
@@ -25,7 +25,7 @@ public class SubcategoryService
 
     public async Task<IReadOnlyCollection<SubcategoryDto>> GetByTitleAsync(string title)
     {
-        var subcategories = await repository.GetByTitleAsync(title);
+        var subcategories = await subcategoryRepository.GetByTitleAsync(title);
         var dtos = subcategories.Select(s => new SubcategoryDto
         {
             CategoryId = s.CategoryId,
@@ -37,14 +37,34 @@ public class SubcategoryService
         return dtos.AsReadOnly();
     }
 
+    private async Task<bool> IsExistedCategory(int id)
+    {
+        try
+        {
+            await categoryRepository.GetByIdAsync(id);
+            return true;
+        }
+        catch (NotFoundException)
+        {
+            return false;
+        }
+    }
+
     public async Task<int> AddAsync(CreateSubcategoryDto createDto)
     {
+        var categoryExists = await IsExistedCategory(createDto.CategoryId);
+
+        if (!categoryExists)
+        {
+            throw new ArgumentException("Category not found.");
+        }
+        
         if (string.IsNullOrWhiteSpace(createDto.Title))
         {
             throw new ArgumentException("Title is required.");
         }
         
-        return await repository.AddAsync(createDto);
+        return await subcategoryRepository.AddAsync(createDto);
     }
     
     public async Task<SubcategoryDto> UpdateAsync(UpdateSubcategoryDto updateDto)
@@ -54,7 +74,7 @@ public class SubcategoryService
             throw new ArgumentException("Title is required.");
         }
         
-        var subcategory = await repository.UpdateAsync(updateDto);
+        var subcategory = await subcategoryRepository.UpdateAsync(updateDto);
 
         var dto = new SubcategoryDto
         {
@@ -69,7 +89,7 @@ public class SubcategoryService
 
     public async Task DeleteAsync(int id)
     {
-        await repository.GetByIdAsync(id);
-        await repository.DeleteAsync(id);
+        await subcategoryRepository.GetByIdAsync(id);
+        await subcategoryRepository.DeleteAsync(id);
     }
 }
