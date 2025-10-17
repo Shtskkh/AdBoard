@@ -28,6 +28,7 @@ public class UserRepository
         var users = await repository.GetAllAsync()
             .WithSpecification(specification)
             .ToListAsync();
+        
         return users.AsReadOnly();
     }
 
@@ -50,12 +51,14 @@ public class UserRepository
 
     private async Task<bool> IsEmailExisted(string email)
     {
-        return await repository.GetAllAsync().AnyAsync(e => e.Email == email);
+        return await repository.GetAllAsync()
+            .AnyAsync(e => e.Email == email);
     }
 
     private async Task<bool> IsPhoneNumberExisted(string phoneNumber)
     {
-        return await repository.GetAllAsync().AnyAsync(e => e.PhoneNumber == phoneNumber);
+        return await repository.GetAllAsync()
+            .AnyAsync(e => e.PhoneNumber == phoneNumber);
     }
     
     /// <summary>
@@ -81,7 +84,7 @@ public class UserRepository
             }
         }
         
-        var user = mapper.Map<CreateUserDto, User>(createDto);
+        var user = mapper.Map<User>(createDto);
 
         await repository.AddAsync(user);
         return user.Id;
