@@ -10,18 +10,7 @@ public class UserService(IUserRepository repository, IMapper mapper) : IUserServ
     public async Task<UserDto> GetByIdAsync(Guid id)
     {
         var user = await repository.GetByIdAsync(id);
-
-        var dto = new UserDto
-        {
-            Id = user.Id,
-            FirstName = user.FirstName,
-            MiddleName = user.MiddleName ?? null,
-            LastName = user.LastName,
-            PhoneNumber = user.PhoneNumber ?? null,
-            Email = user.Email,
-            Role = user.Role.Title,
-            AccountStatus = user.AccountStatus.Title
-        };
+        var dto = mapper.Map<UserDto>(user);
         
         return dto;
     }
