@@ -2,6 +2,7 @@ using Adboard.AppServices.Contexts.Roles.Repositories;
 using Adboard.AppServices.Exceptions;
 using Adboard.Domain.Entities;
 using Adboard.Infrastructure.DataAccess.Repositories;
+using Adboard.Infrastructure.DataAccess.Repositories.EntitiesRepositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Adboard.Infrastructure.DataAccess.Context.Roles.Repositories;

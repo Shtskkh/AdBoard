@@ -1,7 +1,7 @@
 using Adboard.Domain.SeedWorks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Adboard.Infrastructure.DataAccess.Repositories;
+namespace Adboard.Infrastructure.DataAccess.Repositories.EntitiesRepositories;
 
 /// <summary>
 /// Интерфейс базового репозитория

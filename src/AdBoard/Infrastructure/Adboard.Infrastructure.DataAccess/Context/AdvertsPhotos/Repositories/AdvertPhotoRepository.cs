@@ -3,6 +3,7 @@ using Adboard.AppServices.Contexts.AdvertsPhotos.Repositories;
 using Adboard.Contracts.AdvertsPhotos;
 using Adboard.Domain.Entities;
 using Adboard.Infrastructure.DataAccess.Repositories;
+using Adboard.Infrastructure.DataAccess.Repositories.EntitiesRepositories;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 

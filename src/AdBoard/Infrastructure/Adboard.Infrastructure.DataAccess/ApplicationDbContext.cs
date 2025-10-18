@@ -1,5 +1,6 @@
 using System.Reflection;
 using Adboard.Domain.Entities;
+using Adboard.Domain.Entities.JoinEntities;
 using Adboard.Infrastructure.DataAccess.Context.Adverts.Configurations;
 using Adboard.Infrastructure.DataAccess.Context.Roles.Configurations;
 using Microsoft.EntityFrameworkCore;
@@ -54,6 +55,11 @@ public class ApplicationDbContext : DbContext
     /// Таблица фотографий объявлений
     /// </summary>
     public DbSet<AdvertPhoto> AdvertsPhotos { get; set; }
+    
+    /// <summary>
+    /// Таблица соединения объявлений и тегов
+    /// </summary>
+    public DbSet<AdvertSubcategory> AdvertsSubcategories { get; set; }
 
     /// <summary>
     /// Метод применения всех конфигураций, описанных в данном решении

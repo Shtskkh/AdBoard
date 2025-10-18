@@ -26,6 +26,8 @@ using Adboard.Infrastructure.DataAccess.Context.Roles.Repositories;
 using Adboard.Infrastructure.DataAccess.Context.Subcategories.Repositories;
 using Adboard.Infrastructure.DataAccess.Context.Users.Repositories;
 using Adboard.Infrastructure.DataAccess.Repositories;
+using Adboard.Infrastructure.DataAccess.Repositories.EntitiesRepositories;
+using Adboard.Infrastructure.DataAccess.Repositories.JoinEntitiesRepository;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -84,6 +86,7 @@ public static class ComponentRegister
     public static IServiceCollection RegisterRepositories(this IServiceCollection services)
     {
         services.AddScoped(typeof(IRepository<,,>), typeof(Repository<,,>));
+        services.AddScoped(typeof(IJoinRepository<,>), typeof(JoinRepository<,>));
         services.AddScoped<IAccountStatusRepository, AccountStatusRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
