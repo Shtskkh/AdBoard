@@ -3,6 +3,7 @@ using Adboard.AppServices.Exceptions;
 using Adboard.Contracts.Categories;
 using Adboard.Domain.Entities;
 using Adboard.Infrastructure.DataAccess.Repositories;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace Adboard.Infrastructure.DataAccess.Context.Categories.Repositories;
@@ -10,9 +11,10 @@ namespace Adboard.Infrastructure.DataAccess.Context.Categories.Repositories;
 /// <summary>
 /// Репозиторий категорий
 /// </summary>
-/// <param name="repository"></param>
+/// <param name="repository">Базовый репозиторий категорий</param>
+/// <param name="mapper">Автомаппер</param>
 public class CategoryRepository
-    (IRepository<Category, int, ApplicationDbContext> repository) : ICategoryRepository
+    (IRepository<Category, int, ApplicationDbContext> repository, IMapper mapper) : ICategoryRepository
 {
     /// <summary>
     /// Получить все категории с подкатегориями
@@ -24,6 +26,7 @@ public class CategoryRepository
             .Include(c => c.Subcategories)
             .OrderBy(a => a.Id)
             .ToListAsync();
+        
         return categories.AsReadOnly();
     }
 
@@ -81,10 +84,7 @@ public class CategoryRepository
             throw new AlreadyExistsException($"Category with title: {createDto.Title} already exists");
         }
         
-        var newCategory = new Category
-        {
-            Title = createDto.Title
-        };
+        var newCategory = mapper.Map<Category>(createDto);
             
         await repository.AddAsync(newCategory);
         return newCategory.Id;
