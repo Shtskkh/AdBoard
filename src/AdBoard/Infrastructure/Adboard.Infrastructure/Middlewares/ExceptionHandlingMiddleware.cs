@@ -2,25 +2,20 @@ using Adboard.AppServices.Exceptions;
 using Adboard.Contracts.Errors;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 namespace Adboard.Infrastructure.Middlewares;
 
-public class ExceptionHandlingMiddleware
+public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
 {
-    private readonly RequestDelegate _next;
-    
-    public ExceptionHandlingMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
-
     public async Task InvokeAsync(HttpContext context)
     {
         try
         {
-            await _next(context);
+            await next(context);
         }
         catch (Exception e)
         {
@@ -28,12 +23,14 @@ public class ExceptionHandlingMiddleware
         }
     }
 
-    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
         context.Response.ContentType = "application/json";
         var errorModel = MapError(context, exception);
         context.Response.StatusCode = errorModel.Item1;
-
+        
+        logger.LogError("Error occured: {ErrorDto}", JsonConvert.SerializeObject(errorModel.Item2));
+        
         return context.Response.WriteAsync(JsonConvert.SerializeObject(errorModel.Item2));
     }
     
@@ -66,6 +63,13 @@ public class ExceptionHandlingMiddleware
             {
                 StatusCode = StatusCodes.Status400BadRequest,
                 Message = $"Token validation error: {e.Message}",
+                TraceId = context.TraceIdentifier
+            }),
+            
+            DbUpdateException e => (StatusCodes.Status400BadRequest, new ErrorDto
+            {
+                StatusCode = StatusCodes.Status400BadRequest,
+                Message = "Database update error, try again later.",
                 TraceId = context.TraceIdentifier
             }),
             
