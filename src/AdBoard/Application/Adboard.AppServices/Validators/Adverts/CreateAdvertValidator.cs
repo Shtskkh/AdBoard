@@ -24,14 +24,14 @@ public class CreateAdvertValidator : AbstractValidator<CreateAdvertDto>
             .GreaterThan(0.0)
             .WithMessage("Price must be greater than zero");
         
-        RuleFor(x => x.Categories)
+        RuleFor(x => x.SelectedSubcategories)
             .NotEmpty()
             .NotNull()
             .WithMessage("Categories is required")
             .Must(x => x.Count >= 3)
             .WithMessage("Categories must contain at least 3 items");
 
-        RuleForEach(x => x.Categories)
+        RuleForEach(x => x.SelectedSubcategories)
             .ChildRules(child =>
             {
                 child.RuleFor(x => x.Subcategories)

@@ -1,3 +1,5 @@
+using Adboard.Contracts.Categories;
+using Adboard.Contracts.Subcategories;
 using Adboard.Contracts.Users;
 
 namespace Adboard.Contracts.Adverts;
@@ -8,4 +10,5 @@ public class AdvertDto
     public string Title { get; set; }
     public string Description { get; set; }
     public ShortUserDto User { get; set; }
+    public IReadOnlyCollection<SubcategoryDto> Subcategories { get; set; }
 }

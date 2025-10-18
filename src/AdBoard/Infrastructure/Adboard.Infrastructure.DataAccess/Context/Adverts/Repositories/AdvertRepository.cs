@@ -1,4 +1,5 @@
 using Adboard.AppServices.Contexts.Adverts.Repositories;
+using Adboard.AppServices.Contexts.Subcategories.Repositories;
 using Adboard.AppServices.Exceptions;
 using Adboard.Contracts.Adverts;
 using Adboard.Domain.Entities;
@@ -10,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace Adboard.Infrastructure.DataAccess.Context.Adverts.Repositories;
 
 public class AdvertRepository 
-    (IRepository<Advert, Guid, ApplicationDbContext> repository, IMapper mapper): IAdvertRepository
+    (IRepository<Advert, Guid, ApplicationDbContext> repository, ISubcategoryRepository subcategoryRepository, IMapper mapper): IAdvertRepository
 {
     public async Task<Advert> GetByIdAsync(Guid id)
     {
@@ -28,6 +29,17 @@ public class AdvertRepository
     public async Task<Guid> AddAsync(CreateAdvertDto createDto)
     {
         var advert = mapper.Map<Advert>(createDto);
+
+        var subcategoryIds = createDto.SelectedSubcategories
+            .SelectMany(x => x.Subcategories)
+            .ToList();
+
+        var subcategories = await subcategoryRepository.GetAllAsync();
+        var advertSubcategories = subcategories.Where(x => subcategoryIds.Contains(x.Id))
+            .ToList();
+        
+        advert.Subcategories = advertSubcategories;
+        
         await repository.AddAsync(advert);
         
         return advert.Id;

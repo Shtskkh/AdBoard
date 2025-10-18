@@ -19,7 +19,6 @@ public class SubcategoryRepository
     public async Task<IReadOnlyCollection<Subcategory>> GetAllAsync()
     {
         var subcategories = await repository.GetAllAsync()
-            .AsNoTracking()
             .Include(s => s.Category)
             .ToListAsync();
         

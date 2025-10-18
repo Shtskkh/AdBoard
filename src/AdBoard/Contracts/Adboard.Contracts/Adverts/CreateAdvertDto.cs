@@ -8,6 +8,6 @@ public class CreateAdvertDto
     public string Title { get; set; }
     public string Description { get; set; }
     public double Price { get; set; }
-    public IReadOnlyCollection<SelectCategoryDto> Categories { get; set; }
+    public IReadOnlyCollection<SelectCategoryDto> SelectedSubcategories { get; set; }
     // public IReadOnlyCollection<FileDto> Photos { get; set; }
 }

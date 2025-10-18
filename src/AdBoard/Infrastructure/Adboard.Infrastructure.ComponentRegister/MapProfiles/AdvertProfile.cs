@@ -11,6 +11,8 @@ public class AdvertProfile : Profile
         CreateMap<Advert, AdvertDto>(MemberList.None);
         
         CreateMap<CreateAdvertDto, Advert>(MemberList.None)
+            .ForMember(x => x.Subcategories, 
+                opt => opt.Ignore())
             .ForMember(dest => dest.CreatedAt, 
                 opt => 
                     opt.MapFrom(src => DateTime.Now.ToUniversalTime()));

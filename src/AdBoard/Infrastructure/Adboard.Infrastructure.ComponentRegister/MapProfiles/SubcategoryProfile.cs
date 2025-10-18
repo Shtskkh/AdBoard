@@ -10,5 +10,6 @@ public class SubcategoryProfile : Profile
     {
         CreateMap<CreateSubcategoryDto, Subcategory>(MemberList.None);
         CreateMap<Subcategory, ShortSubcategoryDto>(MemberList.None);
+        CreateMap<Subcategory, SubcategoryDto>(MemberList.None);
     }
 }
