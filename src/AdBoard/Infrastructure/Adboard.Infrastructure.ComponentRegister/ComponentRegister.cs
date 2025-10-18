@@ -2,7 +2,7 @@ using Adboard.AppServices.Contexts.AccountsStatuses.Repositories;
 using Adboard.AppServices.Contexts.AccountsStatuses.Services;
 using Adboard.AppServices.Contexts.Adverts.Repositories;
 using Adboard.AppServices.Contexts.Adverts.Services;
-using Adboard.AppServices.Contexts.AdvertsPhotos;
+using Adboard.AppServices.Contexts.AdvertsPhotos.Repositories;
 using Adboard.AppServices.Contexts.Categories.Repositories;
 using Adboard.AppServices.Contexts.Categories.Services;
 using Adboard.AppServices.Contexts.Roles.Repositories;
