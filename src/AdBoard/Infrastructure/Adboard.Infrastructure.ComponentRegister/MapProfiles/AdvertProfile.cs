@@ -8,6 +8,8 @@ public class AdvertProfile : Profile
 {
     public AdvertProfile()
     {
+        CreateMap<Advert, AdvertDto>(MemberList.None);
+        
         CreateMap<CreateAdvertDto, Advert>(MemberList.None)
             .ForMember(dest => dest.CreatedAt, 
                 opt => 

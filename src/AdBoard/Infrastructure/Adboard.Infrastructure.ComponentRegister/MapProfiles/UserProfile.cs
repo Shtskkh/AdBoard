@@ -29,5 +29,7 @@ public class UserProfile : Profile
             .ForMember(dest => dest.AccountStatus, opt => opt.MapFrom(src => src.AccountStatus.Title));
 
         CreateMap<User, UserAuthInfoDto>(MemberList.None);
+        
+        CreateMap<User, ShortUserDto>(MemberList.None);
     }
 }

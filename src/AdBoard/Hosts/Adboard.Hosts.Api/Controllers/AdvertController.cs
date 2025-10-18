@@ -8,9 +8,19 @@ namespace Adboard.Hosts.Api.Controllers;
 [Route("api/v1/[controller]")]
 public class AdvertController(IAdvertService service) : ControllerBase
 {
-    [HttpPost]
-    public async Task<Guid> CreateAdvertAsync(CreateAdvertDto createDto)
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetByIdAsync(Guid id)
     {
-        return await service.AddAsync(createDto);
+        var advert = await service.GetByIdAsync(id);
+        
+        return Ok(advert);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> CreateAdvertAsync(CreateAdvertDto createDto)
+    {
+        var guid = await service.AddAsync(createDto);
+        
+        return Ok(guid);
     }
 }
