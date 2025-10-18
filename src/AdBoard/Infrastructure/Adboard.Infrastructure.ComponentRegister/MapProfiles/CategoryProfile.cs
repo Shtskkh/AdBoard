@@ -10,7 +10,6 @@ public class CategoryProfile : Profile
     public CategoryProfile()
     {
         CreateMap<Category, CategoryDto>(MemberList.None);
-        CreateMap<Subcategory, ShortSubcategoryDto>(MemberList.None);
         CreateMap<CreateCategoryDto, Category>(MemberList.None);
         CreateMap<UpdateCategoryDto, Category>(MemberList.None);
     }
