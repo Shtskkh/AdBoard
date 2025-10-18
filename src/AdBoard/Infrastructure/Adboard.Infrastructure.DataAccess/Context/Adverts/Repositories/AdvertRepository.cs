@@ -12,6 +12,19 @@ namespace Adboard.Infrastructure.DataAccess.Context.Adverts.Repositories;
 public class AdvertRepository 
     (IRepository<Advert, Guid, ApplicationDbContext> repository, IMapper mapper): IAdvertRepository
 {
+    public async Task<Advert> GetByIdAsync(Guid id)
+    {
+        var advert = await repository.GetAllAsync()
+            .Where(a => a.Id == id)
+            .Include(a => a.User)
+            .Include(a => a.AdvertPhotos)
+            .Include(a => a.Subcategories)
+            .ThenInclude(a => a.Category)
+            .FirstOrDefaultAsync();
+            
+        return advert ?? throw new NotFoundException($"Advert with id: {id} was not found.");
+    }
+
     public async Task<Guid> AddAsync(CreateAdvertDto createDto)
     {
         var advert = mapper.Map<Advert>(createDto);
