@@ -23,4 +23,11 @@ public class AdvertController(IAdvertService service) : ControllerBase
         
         return Ok(guid);
     }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteAsync(Guid id)
+    {
+        await service.DeleteAsync(id);
+        return Ok("Advert deleted.");
+    }
 }

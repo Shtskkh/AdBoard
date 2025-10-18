@@ -32,4 +32,9 @@ public class AdvertRepository
         
         return advert.Id;
     }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        await repository.DeleteAsync(id);
+    }
 }

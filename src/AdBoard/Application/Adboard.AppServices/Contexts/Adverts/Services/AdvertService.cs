@@ -19,4 +19,9 @@ public class AdvertService(IAdvertRepository advertRepository, IMapper mapper) :
     {
         return await advertRepository.AddAsync(createDto);
     }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        await advertRepository.DeleteAsync(id);
+    }
 }

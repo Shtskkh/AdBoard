@@ -6,4 +6,5 @@ public interface IAdvertService
 {
     Task<AdvertDto> GetByIdAsync(Guid id);
     Task<Guid> AddAsync(CreateAdvertDto createDto);
+    Task DeleteAsync(Guid id);
 }
