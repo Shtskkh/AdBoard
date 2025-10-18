@@ -33,7 +33,8 @@ public class AdvertConfiguration : IEntityTypeConfiguration<Advert>
         
         builder.HasMany(x => x.AdvertPhotos)
             .WithOne(x => x.Advert)
-            .HasForeignKey(x => x.AdvertId);
+            .HasForeignKey(x => x.AdvertId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(x => x.Subcategories)
             .WithMany(x => x.Adverts);

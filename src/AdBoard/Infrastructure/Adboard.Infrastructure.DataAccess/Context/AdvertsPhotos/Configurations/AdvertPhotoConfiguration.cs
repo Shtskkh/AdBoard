@@ -19,6 +19,9 @@ public class AdvertPhotoConfiguration : IEntityTypeConfiguration<AdvertPhoto>
         builder.Property(x => x.Order)
             .IsRequired();
         
+        builder.Property(x => x.AdvertId)
+            .IsRequired();
+        
         builder.HasIndex(x => new {x.AdvertId, x.Order})
             .IsUnique();
 
