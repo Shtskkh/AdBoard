@@ -3,6 +3,7 @@ using Adboard.AppServices.Exceptions;
 using Adboard.Contracts.Categories;
 using Adboard.Domain.Entities;
 using Adboard.Infrastructure.DataAccess.Repositories;
+using Adboard.Infrastructure.DataAccess.Repositories.EntitiesRepositories;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 

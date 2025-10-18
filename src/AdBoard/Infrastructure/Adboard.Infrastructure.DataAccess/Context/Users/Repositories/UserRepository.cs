@@ -4,6 +4,7 @@ using Adboard.AppServices.Exceptions;
 using Adboard.Contracts.Users;
 using Adboard.Domain.Entities;
 using Adboard.Infrastructure.DataAccess.Repositories;
+using Adboard.Infrastructure.DataAccess.Repositories.EntitiesRepositories;
 using Ardalis.Specification.EntityFrameworkCore;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
