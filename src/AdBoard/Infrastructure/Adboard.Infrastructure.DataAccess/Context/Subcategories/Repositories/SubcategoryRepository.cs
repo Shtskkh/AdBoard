@@ -12,6 +12,7 @@ namespace Adboard.Infrastructure.DataAccess.Context.Subcategories.Repositories;
 /// Репозиторий подкатегорий
 /// </summary>
 /// <param name="repository">Базовый репозиторий подкатегорий</param>
+/// <param name="mapper">Автомаппер</param>
 public class SubcategoryRepository
     (IRepository<Subcategory, int, ApplicationDbContext> repository, IMapper mapper) : ISubcategoryRepository
 {
