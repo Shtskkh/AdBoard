@@ -23,11 +23,6 @@ public class Advert : IEntity<Guid>
     public string Description { get; set; }
     
     /// <summary>
-    /// Guid фото, выступающего в качестве превью объявления
-    /// </summary>
-    // public Guid PreviewPhoto { get; set; }
-    
-    /// <summary>
     /// Цена товара
     /// </summary>
     public double Price { get; set; }
@@ -52,7 +47,7 @@ public class Advert : IEntity<Guid>
     /// <summary>
     /// Фото объявления
     /// </summary>
-    public ICollection<AdvertPhoto> Photos { get; set; }
+    public ICollection<AdvertPhoto> AdvertPhotos { get; set; }
     
     /// <summary>
     /// Подкатегории, к которому относится объявление

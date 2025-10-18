@@ -14,7 +14,7 @@ public class AdvertPhotoConfiguration : IEntityTypeConfiguration<AdvertPhoto>
         builder.HasKey(x => x.Id);
 
         builder.HasOne(x => x.Advert)
-            .WithMany(x => x.Photos)
+            .WithMany(x => x.AdvertPhotos)
             .HasForeignKey(x => x.AdvertId);
     }
 }

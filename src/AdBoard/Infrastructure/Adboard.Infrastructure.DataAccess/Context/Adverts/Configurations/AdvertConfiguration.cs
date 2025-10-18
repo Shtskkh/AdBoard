@@ -20,9 +20,6 @@ public class AdvertConfiguration : IEntityTypeConfiguration<Advert>
         builder.Property(x => x.Description)
             .HasMaxLength(500)
             .IsRequired();
-
-        // builder.Property(x => x.PreviewPhoto)
-        //     .IsRequired();
         
         builder.Property(x => x.Price)
             .IsRequired();
@@ -34,7 +31,7 @@ public class AdvertConfiguration : IEntityTypeConfiguration<Advert>
             .WithMany(x => x.Adverts)
             .HasForeignKey(x => x.UserId);
         
-        builder.HasMany(x => x.Photos)
+        builder.HasMany(x => x.AdvertPhotos)
             .WithOne(x => x.Advert)
             .HasForeignKey(x => x.AdvertId);
 
