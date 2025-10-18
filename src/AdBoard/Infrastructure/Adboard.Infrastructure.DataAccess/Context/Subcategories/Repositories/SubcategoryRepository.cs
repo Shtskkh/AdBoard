@@ -16,6 +16,16 @@ namespace Adboard.Infrastructure.DataAccess.Context.Subcategories.Repositories;
 public class SubcategoryRepository
     (IRepository<Subcategory, int, ApplicationDbContext> repository, IMapper mapper) : ISubcategoryRepository
 {
+    public async Task<IReadOnlyCollection<Subcategory>> GetAllAsync()
+    {
+        var subcategories = await repository.GetAllAsync()
+            .AsNoTracking()
+            .Include(s => s.Category)
+            .ToListAsync();
+        
+        return subcategories.AsReadOnly();
+    }
+
     /// <summary>
     /// Получить подкатегорию по Id
     /// </summary>
