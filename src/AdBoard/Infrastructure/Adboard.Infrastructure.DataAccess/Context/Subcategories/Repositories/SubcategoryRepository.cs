@@ -3,6 +3,7 @@ using Adboard.AppServices.Exceptions;
 using Adboard.Contracts.Subcategories;
 using Adboard.Domain.Entities;
 using Adboard.Infrastructure.DataAccess.Repositories;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace Adboard.Infrastructure.DataAccess.Context.Subcategories.Repositories;
@@ -12,7 +13,7 @@ namespace Adboard.Infrastructure.DataAccess.Context.Subcategories.Repositories;
 /// </summary>
 /// <param name="repository">Базовый репозиторий подкатегорий</param>
 public class SubcategoryRepository
-    (IRepository<Subcategory, int, ApplicationDbContext> repository) : ISubcategoryRepository
+    (IRepository<Subcategory, int, ApplicationDbContext> repository, IMapper mapper) : ISubcategoryRepository
 {
     /// <summary>
     /// Получить подкатегорию по Id
@@ -67,11 +68,7 @@ public class SubcategoryRepository
             throw new AlreadyExistsException($"Subcategory with title: {createDto.Title} already exists in category: {createDto.CategoryId}.");
         }
         
-        var subcategory = new Subcategory
-        {
-            Title = createDto.Title,
-            CategoryId = createDto.CategoryId
-        };
+        var subcategory = mapper.Map<Subcategory>(createDto);
             
         await repository.AddAsync(subcategory);
             

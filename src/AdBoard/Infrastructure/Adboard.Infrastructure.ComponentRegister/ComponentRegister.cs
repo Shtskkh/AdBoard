@@ -56,6 +56,7 @@ public static class ComponentRegister
         {
             cfg.AddProfile<UserProfile>();
             cfg.AddProfile<CategoryProfile>();
+            cfg.AddProfile<SubcategoryProfile>();
             cfg.AddProfile<AdvertProfile>();
         });
         
