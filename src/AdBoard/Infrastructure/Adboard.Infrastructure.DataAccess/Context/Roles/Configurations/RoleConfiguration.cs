@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Adboard.Infrastructure.DataAccess.Context.Roles.Configurations;
 
 /// <summary>
-/// Конфигруация для сущности роли пользователя
+/// Конфигурация для сущности роли пользователя
 /// </summary>
 public class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
