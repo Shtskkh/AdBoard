@@ -2,6 +2,7 @@ using Adboard.AppServices.Contexts.AccountsStatuses.Repositories;
 using Adboard.AppServices.Contexts.AccountsStatuses.Services;
 using Adboard.AppServices.Contexts.Adverts.Repositories;
 using Adboard.AppServices.Contexts.Adverts.Services;
+using Adboard.AppServices.Contexts.AdvertsPhotos;
 using Adboard.AppServices.Contexts.Categories.Repositories;
 using Adboard.AppServices.Contexts.Categories.Services;
 using Adboard.AppServices.Contexts.Roles.Repositories;
@@ -58,6 +59,7 @@ public static class ComponentRegister
             cfg.AddProfile<CategoryProfile>();
             cfg.AddProfile<SubcategoryProfile>();
             cfg.AddProfile<AdvertProfile>();
+            cfg.AddProfile<AdvertPhotoProfile>();
         });
         
         configuration.AssertConfigurationIsValid();
@@ -87,6 +89,7 @@ public static class ComponentRegister
         services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAdvertRepository, AdvertRepository>();
+        services.AddScoped<IAdvertPhotoRepository, IAdvertPhotoRepository>();
         
         return services;
     }
