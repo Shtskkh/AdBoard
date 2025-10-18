@@ -20,6 +20,7 @@ using Adboard.AppServices.Validators.Users;
 using Adboard.Infrastructure.ComponentRegister.MapProfiles;
 using Adboard.Infrastructure.DataAccess.Context.AccountsStatuses.Repositories;
 using Adboard.Infrastructure.DataAccess.Context.Adverts.Repositories;
+using Adboard.Infrastructure.DataAccess.Context.AdvertsPhotos.Repositories;
 using Adboard.Infrastructure.DataAccess.Context.Categories.Repositories;
 using Adboard.Infrastructure.DataAccess.Context.Roles.Repositories;
 using Adboard.Infrastructure.DataAccess.Context.Subcategories.Repositories;
@@ -89,7 +90,7 @@ public static class ComponentRegister
         services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAdvertRepository, AdvertRepository>();
-        services.AddScoped<IAdvertPhotoRepository, IAdvertPhotoRepository>();
+        services.AddScoped<IAdvertPhotoRepository, AdvertPhotoRepository>();
         
         return services;
     }
