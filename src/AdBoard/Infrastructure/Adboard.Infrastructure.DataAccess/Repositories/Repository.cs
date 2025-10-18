@@ -29,53 +29,41 @@ public class Repository<TEntity, TKey, TContext> : IRepository<TEntity, TKey, TC
         _dbSet = _context.Set<TEntity>();
     }
     
-    /// <summary>
-    /// Метод для отложенных запросов к таблице сущности
-    /// </summary>
-    /// <returns>Query</returns>
+    /// <inheritdoc/>
     public IQueryable<TEntity> GetAllAsync()
     {
         return _dbSet;
     }
-
-    /// <summary>
-    /// Метод получения сущности по её первичному ключу
-    /// </summary>
-    /// <param name="id">Первичный ключ</param>
-    /// <returns>Объект сущности</returns>
+    
+    /// <inheritdoc/>
     public async Task<TEntity?> GetByIdAsync(TKey id)
     {
         var entity = await _dbSet.FindAsync(id);
         return entity ?? null;
     }
 
-    /// <summary>
-    /// Метод добавления сущности в БД
-    /// </summary>
-    /// <param name="entity">Объект сущности</param>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public async Task AddAsync(TEntity entity)
     {
         await _dbSet.AddAsync(entity);
         await _context.SaveChangesAsync();
     }
 
-    /// <summary>
-    /// Метод обновления сущности в БД
-    /// </summary>
-    /// <param name="entity">Объект сущности</param>
-    /// <returns></returns>
+    /// <inheritdoc/>
+    public async Task AddRangeAsync(IEnumerable<TEntity> entities)
+    {
+        await _dbSet.AddRangeAsync(entities);
+        await _context.SaveChangesAsync();
+    }
+
+    /// <inheritdoc/>
     public async Task UpdateAsync(TEntity entity)
     {
         _dbSet.Update(entity);
         await _context.SaveChangesAsync();
     }
     
-    /// <summary>
-    /// Метод удаления сущности из БД
-    /// </summary>
-    /// <param name="id">Объект сущности</param>
-    /// <returns></returns>
+    /// <inheritdoc/>
     public async Task DeleteAsync(TKey id)
     {
         var entity = await GetByIdAsync(id);

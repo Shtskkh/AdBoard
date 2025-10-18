@@ -23,27 +23,30 @@ public interface IRepository<TEntity, TKey, TContext>
     /// Метод получения сущности по её первичному ключу
     /// </summary>
     /// <param name="id">Первичный ключ</param>
-    /// <returns>Объект сущности</returns>
+    /// <returns>Найденная сущность или null, если не найдена</returns>
     Task<TEntity?> GetByIdAsync(TKey id);
     
     /// <summary>
     /// Метод добавления сущности в БД
     /// </summary>
-    /// <param name="entity">Объект сущности</param>
-    /// <returns></returns>
+    /// <param name="entity">Сущность</param>
     Task AddAsync(TEntity entity);
+    
+    /// <summary>
+    /// Метод добавления нескольких сущностей в БД
+    /// </summary>
+    /// <param name="entities">Массив сущностей</param>
+    Task AddRangeAsync(IEnumerable<TEntity> entities);
     
     /// <summary>
     /// Метод обновления сущности в БД
     /// </summary>
-    /// <param name="entity">Объект сущности</param>
-    /// <returns></returns>
+    /// <param name="entity">Сущность для обновления</param>
     Task UpdateAsync(TEntity entity);
     
     /// <summary>
     /// Метод удаления сущности из БД
     /// </summary>
-    /// <param name="id">Объект сущности</param>
-    /// <returns></returns>
+    /// <param name="id">Id сущности для обновления</param>
     Task DeleteAsync(TKey id);
 }
