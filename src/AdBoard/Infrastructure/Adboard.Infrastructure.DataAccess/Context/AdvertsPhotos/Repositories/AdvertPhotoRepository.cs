@@ -1,4 +1,5 @@
 using Adboard.AppServices.Contexts.AdvertsPhotos;
+using Adboard.AppServices.Contexts.AdvertsPhotos.Repositories;
 using Adboard.Contracts.AdvertsPhotos;
 using Adboard.Domain.Entities;
 using Adboard.Infrastructure.DataAccess.Repositories;
@@ -20,7 +21,15 @@ public class AdvertPhotoRepository
         return photos;
     }
 
-    public async Task<IReadOnlyCollection<Guid>> AddAsync(IEnumerable<CreateAdvertPhotoDto> photosDto)
+    public async Task<Guid> AddAsync(CreateAdvertPhotoDto createDto)
+    {
+        var photo = mapper.Map<AdvertPhoto>(createDto);
+        await repository.AddAsync(photo);
+        
+        return photo.Id;
+    }
+
+    public async Task<IReadOnlyCollection<Guid>> AddRangeAsync(IEnumerable<CreateAdvertPhotoDto> photosDto)
     {
         var photos = mapper.Map<IReadOnlyCollection<AdvertPhoto>>(photosDto);
         await repository.AddRangeAsync(photos);
