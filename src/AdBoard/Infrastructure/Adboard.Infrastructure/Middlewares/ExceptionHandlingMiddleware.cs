@@ -9,6 +9,11 @@ using Newtonsoft.Json;
 
 namespace Adboard.Infrastructure.Middlewares;
 
+/// <summary>
+/// Middleware обработки ошибок приложения
+/// </summary>
+/// <param name="next">Следующий middleware</param>
+/// <param name="logger">Логгер</param>
 public class ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
 {
     public async Task InvokeAsync(HttpContext context)
