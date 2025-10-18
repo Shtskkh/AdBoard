@@ -13,6 +13,11 @@ public class AdvertPhoto : IEntity<Guid>
     public Guid Id { get; set; }
     
     /// <summary>
+    /// Порядок фото в объявлении
+    /// </summary>
+    public int Order { get; set; }
+    
+    /// <summary>
     /// Фото в байтовом представлении
     /// </summary>
     public byte[] Content { get; set; }
